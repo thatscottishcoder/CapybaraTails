@@ -212,6 +212,12 @@ window.OverworldMaps = {
                 //     }
                 // ]
             }),
+            pizzaStone: new PizzaStone({
+                x: utils.withGrid(3),
+                y: utils.withGrid(9),
+                storyFlag: "USED_PIZZA_STONE",
+                pizzas: ["v001", "f001"],
+            }),
         },
         // Define walls for Kitchen map
         walls: {

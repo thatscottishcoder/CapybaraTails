@@ -69,14 +69,16 @@ class OverworldEvent {
     // Handles a "textMessage" event where a text message is displayed to the player
     textMessage(resolve) {
         // Check if the event includes facing a specific object
-        if(this.event.faceHero) {
+        if (this.event.faceHero) {
             const obj = this.map.gameObjects[this.event.faceHero]; // Get the object to face
-            obj.direction = utils.oppositeDirection(this.map.gameObjects["hero"].direction); // Make the object face the opposite direction of the hero
+            obj.direction = utils.oppositeDirection(
+                this.map.gameObjects["hero"].direction
+            ); // Make the object face the opposite direction of the hero
         }
         // Create a new TextMessage object with the event text and completion callback
         const message = new TextMessage({
             text: this.event.text,
-            onComplete: () => resolve()
+            onComplete: () => resolve(),
         });
         // Initialise the text message by attaching it to the game-container element
         message.init(document.querySelector(".game-container"));
@@ -107,7 +109,7 @@ class OverworldEvent {
             onComplete: (didWin) => {
                 // Once the battle is complete, resolve the battle event
                 resolve(didWin ? "WON_BATTLE" : "LOST_BATTLE");
-            }
+            },
         });
         // Initialise the battle within the game container
         battle.init(document.querySelector(".game-container"));
@@ -120,7 +122,7 @@ class OverworldEvent {
                 resolve();
                 this.map.isPaused = false;
                 this.map.overworld.startGameLoop();
-            }
+            },
         });
         menu.init(document.querySelector(".game-container"));
     }
@@ -128,7 +130,15 @@ class OverworldEvent {
     addStoryFlag(resolve) {
         window.playerState.storyFlags[this.event.flag] = true;
         resolve();
-      }
+    }
+
+    craftingMenu(resolve) {
+        const menu = new CraftingMenu({
+            pizzas: this.event.pizzas,
+            onComplete: () => {},
+        });
+        menu.init(document.querySelector(".game-container"));
+    }
 
     // Stars the appropriate event handling based on the event type ("stand", "walk", or "textMessage")
     init() {

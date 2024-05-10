@@ -14,7 +14,7 @@ class Sprite {
         // Indicator to use shadow, default to true
         this.useShadow = true;
         if (this.useShadow) {
-            // Load shadow image source 
+            // Load shadow image source
             this.shadow.src = "/images/characters/shadow.png";
         }
         this.shadow.onload = () => {

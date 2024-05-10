@@ -1,34 +1,34 @@
 class PlayerState {
     constructor() {
         this.pizzas = {
-            "p1": {
+            p1: {
                 pizzaId: "s001",
                 hp: 1,
                 maxHp: 50,
                 xp: 95,
                 maxXp: 100,
                 level: 1,
-                status: { type: "saucy" }
+                status: { type: "saucy" },
             },
-            "p2": {
+            p2: {
                 pizzaId: "v001",
                 hp: 50,
                 maxHp: 50,
                 xp: 75,
                 maxXp: 100,
                 level: 1,
-                status: null
+                status: null,
             },
-            "p3": {
+            p3: {
                 pizzaId: "f001",
                 hp: 50,
                 maxHp: 50,
                 xp: 75,
                 maxXp: 100,
                 level: 1,
-                status: null
-            }
-        }
+                status: null,
+            },
+        };
         this.lineup = ["p1"];
         this.items = [
             {
@@ -44,8 +44,25 @@ class PlayerState {
                 instanceId: "item3",
             },
         ];
-        this.storyFlags = {
+        this.storyFlags = {};
+    }
+
+    addPizza(pizzaId) {
+        const newId = `p${Date.now()}` + Math.floor(Math.random() * 99999);
+        this.pizzas[newId] = {
+            pizzaId: "f001",
+            hp: 50,
+            maxHp: 50,
+            xp: 75,
+            maxXp: 100,
+            level: 1,
+            status: null,
+        };
+        if (this.lineup.length < 3) {
+            this.lineup.push(newId);
         }
+        utils.emitEvent("LineupChanged");
+        console.log(this);
     }
 
     swapLineup(oldId, incomingId) {
@@ -55,7 +72,7 @@ class PlayerState {
     }
 
     moveToFront(futureFrontId) {
-        this.lineup = this.lineup.filter(id => id !== futureFrontId);
+        this.lineup = this.lineup.filter((id) => id !== futureFrontId);
         this.lineup.unshift(futureFrontId);
         utils.emitEvent("LineupChanged");
     }
