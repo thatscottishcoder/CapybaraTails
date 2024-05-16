@@ -1,4 +1,7 @@
-class GameObject {
+import { Sprite } from "./Sprite.mjs";
+import { OverworldEvent } from "./OverworldEvent.mjs";
+
+export class GameObject {
     constructor(config) {
         this.id = null;
         this.isMounted = false;

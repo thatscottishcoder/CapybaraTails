@@ -1,4 +1,6 @@
-class ReplacementMenu {
+import { KeyboardMenu } from "../../KeyboardMenu.mjs";
+
+export class ReplacementMenu {
     constructor({ replacements, onComplete }) {
         this.replacements = replacements;
         this.onComplete = onComplete;

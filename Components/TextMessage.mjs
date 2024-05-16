@@ -1,5 +1,8 @@
-class TextMessage {
-    constructor({ text, onComplete}) {
+import { KeyPressListener } from "./KeyPressListener.mjs";
+import { RevealingText } from "./RevealingText.mjs";
+
+export class TextMessage {
+    constructor({ text, onComplete }) {
         // Initialise properties of the TextMessage object
         this.text = text; // Text content of the message
         this.onComplete = onComplete; // Callback function to execute when message is complete
@@ -14,17 +17,17 @@ class TextMessage {
         this.element.classList.add("TextMessage");
 
         // Set inner HTML of the element with text content and a button for interaction
-        this.element.innerHTML = (`
+        this.element.innerHTML = `
             <p class="TextMessage_p"></p>
             <button class="TextMessage_button">Next</button>
-        `);
+        `;
 
         // Create a new instance of RevealingText to reveal text within an element
         this.revealingText = new RevealingText({
             // Specify the element where the revealing text will be displayed
             element: this.element.querySelector(".TextMessage_p"),
             // Provide the text to be revealed
-            text: this.text
+            text: this.text,
         });
 
         // Add event listener to the button for closing the text message
@@ -42,7 +45,7 @@ class TextMessage {
     // Method to remove the text message element and execute onComplete callback
     done() {
         // Check if revealing text is already completed
-        if(this.revealingText.isDone) {
+        if (this.revealingText.isDone) {
             // If revealing text is done, remove the HTML element from the DOM
             this.element.remove();
             // Unbind the actionListener to prevent further triggering
@@ -52,7 +55,7 @@ class TextMessage {
         } else {
             // If revealing text is not done, instantly reveal the remaining text
             this.revealingText.warpToDone();
-        } 
+        }
     }
 
     // Method to initialise the text message by creating the element and appending it to a container

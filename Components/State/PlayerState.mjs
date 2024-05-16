@@ -78,3 +78,5 @@ class PlayerState {
     }
 }
 window.playerState = new PlayerState();
+
+export default PlayerState;

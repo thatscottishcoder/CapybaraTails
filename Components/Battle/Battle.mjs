@@ -1,4 +1,9 @@
-class Battle {
+import { BattleEvent } from "./BattleEvent.mjs";
+import { Combatant } from "./Combatant.mjs";
+import { Team } from "./Team.mjs";
+import { TurnCycle } from "./TurnCycle.mjs";
+
+export class Battle {
     constructor({ enemy, map, onComplete }) {
         this.enemy = enemy;
         this.map = map;

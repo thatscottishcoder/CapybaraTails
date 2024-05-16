@@ -1,4 +1,6 @@
-class CraftingMenu {
+import { KeyboardMenu } from "./KeyboardMenu.mjs";
+
+export class CraftingMenu {
     constructor({ pizzas, onComplete }) {
         this.pizzas = pizzas;
         this.onComplete = onComplete;

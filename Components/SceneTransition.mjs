@@ -1,4 +1,4 @@
-class SceneTransition {
+export class SceneTransition {
     constructor() {
         // Initialise element for scene transition
         this.element = null;
@@ -16,9 +16,13 @@ class SceneTransition {
         this.element.classList.add("fade-out");
 
         // Remove the element from DOM after animation ends
-        this.element.addEventListener("animationend", () => {
-            this.element.remove();
-        }, {once: true})
+        this.element.addEventListener(
+            "animationend",
+            () => {
+                this.element.remove();
+            },
+            { once: true }
+        );
     }
 
     // Method to initialise scene transition
@@ -29,8 +33,12 @@ class SceneTransition {
         container.appendChild(this.element);
 
         // Execute callback function after animation ends
-        this.element.addEventListener("animationend", () => {
-            callback();
-        }, {once: true})
+        this.element.addEventListener(
+            "animationend",
+            () => {
+                callback();
+            },
+            { once: true }
+        );
     }
 }

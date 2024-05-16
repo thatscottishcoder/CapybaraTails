@@ -1,3 +1,13 @@
+@import url("./Battle.css");
+@import url("./Combatant.css");
+@import url("./Hud.css");
+@import url("./KeyboardMenu.css");
+@import url("./Menu.css");
+@import url("./SceneTransition.css");
+@import url("./SubmissionMenu.css");
+@import url("./Team.css");
+@import url("./TextMessage.css");
+
 :root {
     --border-color: #291D4D;
     --dialogue-background: #FFF3B4;

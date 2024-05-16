@@ -1,5 +1,7 @@
-class KeyboardMenu {
-    constructor(config={}) {
+import { KeyPressListener } from "./KeyPressListener.mjs";
+
+export class KeyboardMenu {
+    constructor(config = {}) {
         this.options = []; //set by updater method
         this.up = null;
         this.down = null;
@@ -72,7 +74,9 @@ class KeyboardMenu {
 
     init(container) {
         this.createElement();
-        (this.descriptionContainer || container).appendChild(this.descriptionElement);
+        (this.descriptionContainer || container).appendChild(
+            this.descriptionElement
+        );
         container.appendChild(this.element);
 
         this.up = new KeyPressListener("ArrowUp", () => {

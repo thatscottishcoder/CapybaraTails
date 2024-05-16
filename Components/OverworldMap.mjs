@@ -1,5 +1,9 @@
+import { OverworldEvent } from "./OverworldEvent.mjs";
+import { Person } from "./Person.mjs";
+import { PizzaStone } from "./PizzaStone.mjs";
+
 // Creates a new OverworldMap instance representing a map in the overworld
-class OverworldMap {
+export class OverworldMap {
     constructor(config) {
         // Reference to the overworld (default empty)
         this.overworld = null;
@@ -154,6 +158,7 @@ class OverworldMap {
 // Define OverworldMaps object containing different maps and their respective properties
 window.OverworldMaps = {
     Kitchen: {
+        id: "Kitchen",
         // Source for lower layer image
         lowerSrc: "/images/maps/KitchenLower.png",
         // Source for upper layer image
@@ -175,12 +180,12 @@ window.OverworldMaps = {
                 // Image source for npcA
                 src: "/images/characters/people/npc4.png",
                 // Sequence of behaviors for npcA
-                behaviorLoop: [
-                    { type: "stand", direction: "left", time: 2000 },
-                    { type: "walk", direction: "up" },
-                    { type: "walk", direction: "up" },
-                    { type: "walk", direction: "up" },
-                ],
+                // behaviorLoop: [
+                //     { type: "stand", direction: "left", time: 2000 },
+                //     { type: "walk", direction: "up" },
+                //     { type: "walk", direction: "up" },
+                //     { type: "walk", direction: "up" },
+                // ],
                 // Sequence of talking events for npcA
                 // talking: [
                 //     {
@@ -285,12 +290,21 @@ window.OverworldMaps = {
             // ],
             [utils.asGridCoord(5, 10)]: [
                 {
-                    events: [{ type: "changeMap", map: "DiningRoom" }],
+                    events: [
+                        {
+                            type: "changeMap",
+                            map: "DiningRoom",
+                            x: utils.withGrid(7),
+                            y: utils.withGrid(4),
+                            direction: "down",
+                        },
+                    ],
                 },
             ],
         },
     },
     DiningRoom: {
+        id: "DiningRoom",
         // Source for lower layer image
         lowerSrc: "/images/maps/DiningRoomLower.png",
         // Source for upper layer image
@@ -449,17 +463,34 @@ window.OverworldMaps = {
             // ],
             [utils.asGridCoord(7, 3)]: [
                 {
-                    events: [{ type: "changeMap", map: "Kitchen" }],
+                    events: [
+                        {
+                            type: "changeMap",
+                            map: "Kitchen",
+                            x: utils.withGrid(5),
+                            y: utils.withGrid(10),
+                            direction: "up",
+                        },
+                    ],
                 },
             ],
             [utils.asGridCoord(6, 12)]: [
                 {
-                    events: [{ type: "changeMap", map: "Street" }],
+                    events: [
+                        {
+                            type: "changeMap",
+                            map: "Street",
+                            x: utils.withGrid(5),
+                            y: utils.withGrid(10),
+                            direction: "down",
+                        },
+                    ],
                 },
             ],
         },
     },
     Street: {
+        id: "Street",
         // Source for the lower layer image
         lowerSrc: "/images/maps/StreetLower.png",
         // Source for the upper layer image
@@ -643,7 +674,15 @@ window.OverworldMaps = {
             ],
             [utils.asGridCoord(5, 9)]: [
                 {
-                    events: [{ type: "changeMap", map: "DiningRoom" }],
+                    events: [
+                        {
+                            type: "changeMap",
+                            map: "DiningRoom",
+                            x: utils.withGrid(6),
+                            y: utils.withGrid(11),
+                            direction: "up",
+                        },
+                    ],
                 },
             ],
             [utils.asGridCoord(25, 5)]: [
@@ -659,6 +698,7 @@ window.OverworldMaps = {
         },
     },
     PizzaShop: {
+        id: "PizzaShop",
         // Source for the lower layer image
         lowerSrc: "/images/maps/PizzaShopLower.png",
         // Source for the upper layer image
@@ -818,6 +858,7 @@ window.OverworldMaps = {
         },
     },
     StreetNorth: {
+        id: "StreetNorth",
         // Source for the lower layer image
         lowerSrc: "/images/maps/StreetNorthLower.png",
         // Source for the upper layer image
@@ -989,6 +1030,7 @@ window.OverworldMaps = {
         },
     },
     GreenKitchen: {
+        id: "GreenKitchen",
         // Source for the lower layer image
         lowerSrc: "/images/maps/GreenKitchenLower.png",
         // Source for the upper layer image

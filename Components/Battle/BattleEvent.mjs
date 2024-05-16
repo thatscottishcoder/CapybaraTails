@@ -1,4 +1,7 @@
-class BattleEvent {
+import { TextMessage } from "../TextMessage.mjs";
+import { SubmissionMenu } from "./SubmissionMenu.mjs";
+
+export class BattleEvent {
     constructor(event, battle) {
         this.event = event;
         this.battle = battle;

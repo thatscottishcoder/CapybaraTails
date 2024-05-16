@@ -1,4 +1,9 @@
-class Overworld {
+import { KeyPressListener } from "./KeyPressListener.mjs";
+import { OverworldMap } from "./OverworldMap.mjs";
+import { Hud } from "./Hud.mjs";
+import { DirectionInput } from "./DirectionInput.mjs";
+
+export class Overworld {
     constructor(config) {
         // Initialise properties of the Overworld
         this.element = config.element; // HTML element containing the game
@@ -41,8 +46,8 @@ class Overworld {
 
             // Draw the upper layer of the map
             this.map.drawUpperImage(this.ctx, cameraPerson);
-            
-            if(!this.map.isPaused) {
+
+            if (!this.map.isPaused) {
                 // Request the next animation frame
                 requestAnimationFrame(() => {
                     // Repeat the rendering process recursively
@@ -79,13 +84,21 @@ class Overworld {
         });
     }
 
-    startMap(mapConfig) {
+    startMap(mapConfig, heroInitialState = null) {
         // Create a new map using the provided configuration
         this.map = new OverworldMap(mapConfig);
         // Set a reference to the current overworld instance within the map
         this.map.overworld = this;
         // Mount game objects onto the map
         this.map.mountObjects();
+
+        if (heroInitialState) {
+            this.map.gameObjects.hero.x = heroInitialState.x;
+            this.map.gameObjects.hero.y = heroInitialState.y;
+            this.map.gameObjects.hero.direction = heroInitialState.direction;
+        }
+
+        console.log(this.map.walls);
     }
 
     // Method to initialize the game

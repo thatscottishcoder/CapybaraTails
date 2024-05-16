@@ -1,4 +1,7 @@
-class PauseMenu {
+import { KeyboardMenu } from "./KeyboardMenu.mjs";
+import { KeyPressListener } from "./KeyPressListener.mjs";
+
+export class PauseMenu {
     constructor({ onComplete }) {
         this.onComplete = onComplete;
     }

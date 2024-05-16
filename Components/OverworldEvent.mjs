@@ -1,5 +1,11 @@
+import { TextMessage } from "./TextMessage.mjs";
+import { CraftingMenu } from "./CrafingMenu.mjs";
+import { Battle } from "./Battle/Battle.mjs";
+import { PauseMenu } from "./PauseMenu.mjs";
+import { SceneTransition } from "./SceneTransition.mjs";
+
 // Creates a new OverworldEvent object which represents an event happening in the overworld
-class OverworldEvent {
+export class OverworldEvent {
     constructor({ map, event }) {
         this.map = map;
         this.event = event;
@@ -91,7 +97,11 @@ class OverworldEvent {
         // Initialise the scene transition, specifying the game container and a callback function
         sceneTransition.init(document.querySelector(".game-container"), () => {
             // Start the new map using the specified map configuration from the event
-            this.map.overworld.startMap(window.OverworldMaps[this.event.map]);
+            this.map.overworld.startMap(window.OverworldMaps[this.event.map], {
+                x: this.event.x,
+                y: this.event.y,
+                direction: this.event.direction,
+            });
             // Resolve the change map event
             resolve();
             // Fade out the scene transition after resolving the change map event

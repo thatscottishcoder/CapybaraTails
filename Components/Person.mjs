@@ -1,4 +1,6 @@
-class Person extends GameObject {
+import { GameObject } from "./GameObject.mjs";
+
+export class Person extends GameObject {
     constructor(config) {
         // Call the constructor of the base class
         super(config);
@@ -10,17 +12,17 @@ class Person extends GameObject {
         this.isPlayerControlled = config.isPlayerControlled || false;
         // Object to update position based on direction
         this.directionUpdate = {
-            up: ["y", -1],  // Update y-coordinate for moving up
+            up: ["y", -1], // Update y-coordinate for moving up
             down: ["y", 1], // Update y-coordinate for moving down
-            left: ["x", -1],// Update x-coordinate for moving left
-            right: ["x", 1],// Update x-coordinate for moving right
+            left: ["x", -1], // Update x-coordinate for moving left
+            right: ["x", 1], // Update x-coordinate for moving right
         };
     }
 
     // Update method for Person objects
     update(state) {
         if (this.movingProgressRemaining > 0) {
-            // Update position if there's remaining movement progress 
+            // Update position if there's remaining movement progress
             this.updatePosition();
         } else {
             // More cases for starting to walk will come here

@@ -1,4 +1,4 @@
-class RevealingText {
+export class RevealingText {
     constructor(config) {
         // Initialise element to display the revealing text
         this.element = config.element;
@@ -15,12 +15,12 @@ class RevealingText {
     // Method to reveal one character at a time
     revealOneCharacter(list) {
         // Extract the next character to be revealed from the list
-        const next = list.splice(0,1)[0];
+        const next = list.splice(0, 1)[0];
         // Add CSS class to reveal the letter
         next.span.classList.add("revealed");
 
         // If there are more characters to reveal
-        if(list.length > 0) {
+        if (list.length > 0) {
             // Set a timeout to reveal the next character after the specified delay
             this.timeout = setTimeout(() => {
                 this.revealOneCharacter(list);
@@ -38,9 +38,9 @@ class RevealingText {
         // Set the isDone flag to true
         this.isDone = true;
         // Add the "revealed" class to all spans to instantly reveal the entire text
-        this.element.querySelectorAll("span").forEach(s => {
+        this.element.querySelectorAll("span").forEach((s) => {
             s.classList.add("revealed");
-        })
+        });
     }
 
     // Method to initialise the revealing text
@@ -48,7 +48,7 @@ class RevealingText {
         // Initialise empty array to hold character elements and delays
         let characters = [];
         // Split the text into individual characters
-        this.text.split("").forEach(character => {
+        this.text.split("").forEach((character) => {
             // Create a span element for each character
             let span = document.createElement("span");
             // Set the text content of the span to the character
@@ -59,7 +59,7 @@ class RevealingText {
             // Determine delay after each character based on speed
             characters.push({
                 span,
-                delayAfter: character === " " ? 0 : this.speed
+                delayAfter: character === " " ? 0 : this.speed,
             });
         });
         // Start revealing characters one by one
