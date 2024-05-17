@@ -8,7 +8,8 @@ export class OverworldMap {
         // Reference to the overworld (default empty)
         this.overworld = null;
         // Map game objects
-        this.gameObjects = config.gameObjects;
+        this.gameObjects = {};
+        this.configObjects = config.configObjects;
         // Cutscene spaces on the map (default empty object)
         this.cutsceneSpaces = config.cutsceneSpaces || {};
         // Walls on the map (default empty object)
@@ -55,20 +56,41 @@ export class OverworldMap {
     isSpaceTaken(currentX, currentY, direction) {
         // Check the position in the given direction
         const { x, y } = utils.nextPosition(currentX, currentY, direction);
-        return this.walls[`${x},${y}`] || false;
+        if (this.walls[`${x},${y}`]) {
+            return true;
+        }
+        return Object.values(this.gameObjects).find((obj) => {
+            if (obj.x === x && obj.y === y) {
+                return true;
+            }
+            if (obj.intentPosition && obj.intentPosition[0] === x && obj.intentPosition[1] === y) {
+                return true;
+            }
+            return false;
+        });
     }
 
     // Mounts (adds functionality) to all game objects present on the map
     mountObjects() {
-        Object.keys(this.gameObjects).forEach((key) => {
-            let object = this.gameObjects[key];
+        Object.keys(this.configObjects).forEach((key) => {
+            let object = this.configObjects[key];
             // Assign an ID to the object
             object.id = key;
 
+            let instance;
+            if (object.type === "Person") {
+                instance = new Person(object);
+            }
+            if (object.type === "PizzaStone") {
+                instance = new PizzaStone(object);
+            }
+            this.gameObjects[key] = instance;
+            this.gameObjects[key].id = key;
+            instance.mount(this);
             //TODO: Implement logic to determine if the object should be mounted (active)
 
             // Call the object's mount function with the map context
-            object.mount(this);
+            //object.mount(this);
         });
     }
 
@@ -95,11 +117,6 @@ export class OverworldMap {
 
         // Cutscene has ended
         this.isCutscenePlaying = false;
-
-        // Reset NPCs to perform their idle behavior
-        Object.values(this.gameObjects).forEach((object) =>
-            object.doBehaviorEvent(this)
-        );
     }
 
     checkForActionCutscene() {
@@ -107,9 +124,7 @@ export class OverworldMap {
         const nextCoords = utils.nextPosition(hero.x, hero.y, hero.direction); // Calculate next position based on hero's direction
         const match = Object.values(this.gameObjects).find((object) => {
             // Find an object at the next coordinates matching the hero's direction
-            return (
-                `${object.x},${object.y}` === `${nextCoords.x},${nextCoords.y}`
-            );
+            return `${object.x},${object.y}` === `${nextCoords.x},${nextCoords.y}`;
         });
         // Check conditions for starting a cutscene: not already in a cutscene, object found at next coordinates and there are actions defined for the object
         if (!this.isCutscenePlaying && match && match.talking.length) {
@@ -131,28 +146,6 @@ export class OverworldMap {
             this.startCutscene(match[0].events); // Start the cutscene with the defined events
         }
     }
-
-    // Adds a wall at the specified coordinates
-    addWall(x, y) {
-        // Mark the wall at the given position
-        this.walls[`${x},${y}`] = true;
-    }
-
-    // Removes a wall at the specified coordinates
-    removeWall(x, y) {
-        // Delete the wall at the specified position
-        delete this.walls[`${x},${y}`];
-    }
-
-    // Moves a wall from one position of the wall using the previous coordinates of the given wall
-    moveWall(wasX, wasY, direction) {
-        // Remove the wall from its previous position
-        this.removeWall(wasX, wasY);
-        // Calculate the new position
-        const { x, y } = utils.nextPosition(wasX, wasY, direction);
-        // Add the wall to the new position
-        this.addWall(x, y);
-    }
 }
 
 // Define OverworldMaps object containing different maps and their respective properties
@@ -165,64 +158,43 @@ window.OverworldMaps = {
         upperSrc: "/images/maps/KitchenUpper.png",
         // Source for battle layer image
         battleSrc: "images/maps/KitchenBattle.png",
-        gameObjects: {
-            hero: new Person({
-                // Indicates that the player controls this character
+        gameObjects: {},
+        configObjects: {
+            hero: {
+                type: "Person",
                 isPlayerControlled: true,
-                // Initial x and y coordinates of the hero in the kitchen
                 x: utils.withGrid(5),
                 y: utils.withGrid(5),
-            }),
-            npcA: new Person({
-                // Initial x and y coordinates of npcA in the kitchen
+            },
+            npcA: {
+                type: "Person",
                 x: utils.withGrid(2),
                 y: utils.withGrid(6),
-                // Image source for npcA
                 src: "/images/characters/people/npc4.png",
-                // Sequence of behaviors for npcA
-                // behaviorLoop: [
-                //     { type: "stand", direction: "left", time: 2000 },
-                //     { type: "walk", direction: "up" },
-                //     { type: "walk", direction: "up" },
-                //     { type: "walk", direction: "up" },
-                // ],
-                // Sequence of talking events for npcA
-                // talking: [
-                //     {
-                //         events: [
-                //             { type: "textMessage", text: "You made it!", faceHero: "npcA" }
-                //         ]
-                //     }
-                // ]
-            }),
-            npcB: new Person({
-                // Initial x and y coordinates of npcB in the kitchen
-                x: utils.withGrid(10),
-                y: utils.withGrid(6),
-                // Image source for npcB
-                src: "/images/characters/people/npc5.png",
-                // Sequence of behaviors for npcB
-                // behaviorLoop: [
-                //     { type: "stand", direction: "left", time: 2000 },
-                //     { type: "walk", direction: "up" },
-                //     { type: "walk", direction: "up" },
-                //     { type: "walk", direction: "up" },
-                // ]
-                // Sequence of talking events for npcB
-                // talking: [
-                //     {
-                //         events: [
-                //             { type: "textMessage", text: "You made it!", faceHero: "npcA" }
-                //         ]
-                //     }
-                // ]
-            }),
-            pizzaStone: new PizzaStone({
+                behaviorLoop: [
+                    { type: "stand", direction: "left", time: 2000 },
+                    { type: "walk", direction: "up" },
+                    { type: "stand", direction: "left", time: 2000 },
+                    { type: "walk", direction: "down" },
+                    { type: "stand", direction: "left", time: 2000 },
+                    { type: "walk", direction: "down" },
+                    { type: "stand", direction: "left", time: 2000 },
+                    { type: "walk", direction: "up" },
+                    { type: "stand", direction: "left", time: 2000 },
+                ],
+                talking: [
+                    {
+                        events: [{ type: "textMessage", text: "You made it!", faceHero: "npcA" }],
+                    },
+                ],
+            },
+            pizzaStone: {
+                type: "PizzaStone",
                 x: utils.withGrid(3),
                 y: utils.withGrid(9),
                 storyFlag: "USED_PIZZA_STONE",
                 pizzas: ["v001", "f001"],
-            }),
+            },
         },
         // Define walls for Kitchen map
         walls: {
@@ -316,69 +288,77 @@ window.OverworldMaps = {
         // Source for battle layer image
         battleSrc: "/images/maps/DiningRoomBattle.png",
         gameObjects: {
-            hero: new Person({
-                // Indicates that the player controls this character
+            // hero: new Person({
+            //     // Indicates that the player controls this character
+            //     isPlayerControlled: true,
+            //     // Initial x and y coordinates of the hero in the kitchen
+            //     x: utils.withGrid(7),
+            //     y: utils.withGrid(4),
+            // }),
+            // npcA: new Person({
+            //     // Initial x and y coordinates of npcA in the kitchen
+            //     x: utils.withGrid(2),
+            //     y: utils.withGrid(4),
+            //     // Image source for npcA
+            //     src: "/images/characters/people/erio.png",
+            //     talking: [
+            //         {
+            //             events: [
+            //                 {
+            //                     type: "textMessage",
+            //                     text: "Bahaha!",
+            //                     faceHero: "npcB",
+            //                 },
+            //                 { type: "addStoryFlag", flag: "TALKED_TO_ERIO" },
+            //                 { type: "battle", enemyId: "erio" },
+            //             ],
+            //         },
+            //     ],
+            // }),
+            // npcB: new Person({
+            //     // Initial x and y coordinates of npcB in the kitchen
+            //     x: utils.withGrid(10),
+            //     y: utils.withGrid(8),
+            //     // Image source for npcB
+            //     src: "/images/characters/people/npc1.png",
+            //     // Sequence of talking events for npcB
+            //     talking: [
+            //         {
+            //             required: ["TALKED_TO_ERIO"],
+            //             events: [
+            //                 {
+            //                     type: "textMessage",
+            //                     text: "Isn't Erio the coolest?",
+            //                     faceHero: "npcB",
+            //                 },
+            //             ],
+            //         },
+            //         {
+            //             events: [
+            //                 {
+            //                     type: "textMessage",
+            //                     text: "I'm going to crush you!",
+            //                     faceHero: "npcB",
+            //                 },
+            //                 { type: "battle", enemyId: "beth" },
+            //                 { type: "addStoryFlag", flag: "DEFEATED_BETH" },
+            //                 {
+            //                     type: "textMessage",
+            //                     text: "You crushed me like weak pepper.",
+            //                     faceHero: "npcB",
+            //                 },
+            //             ],
+            //         },
+            //     ],
+            // }),
+        },
+        configObjects: {
+            hero: {
+                type: "Person",
                 isPlayerControlled: true,
-                // Initial x and y coordinates of the hero in the kitchen
-                x: utils.withGrid(7),
-                y: utils.withGrid(4),
-            }),
-            npcA: new Person({
-                // Initial x and y coordinates of npcA in the kitchen
-                x: utils.withGrid(2),
-                y: utils.withGrid(4),
-                // Image source for npcA
-                src: "/images/characters/people/erio.png",
-                talking: [
-                    {
-                        events: [
-                            {
-                                type: "textMessage",
-                                text: "Bahaha!",
-                                faceHero: "npcB",
-                            },
-                            { type: "addStoryFlag", flag: "TALKED_TO_ERIO" },
-                            { type: "battle", enemyId: "erio" },
-                        ],
-                    },
-                ],
-            }),
-            npcB: new Person({
-                // Initial x and y coordinates of npcB in the kitchen
-                x: utils.withGrid(10),
-                y: utils.withGrid(8),
-                // Image source for npcB
-                src: "/images/characters/people/npc1.png",
-                // Sequence of talking events for npcB
-                talking: [
-                    {
-                        required: ["TALKED_TO_ERIO"],
-                        events: [
-                            {
-                                type: "textMessage",
-                                text: "Isn't Erio the coolest?",
-                                faceHero: "npcB",
-                            },
-                        ],
-                    },
-                    {
-                        events: [
-                            {
-                                type: "textMessage",
-                                text: "I'm going to crush you!",
-                                faceHero: "npcB",
-                            },
-                            { type: "battle", enemyId: "beth" },
-                            { type: "addStoryFlag", flag: "DEFEATED_BETH" },
-                            {
-                                type: "textMessage",
-                                text: "You crushed me like weak pepper.",
-                                faceHero: "npcB",
-                            },
-                        ],
-                    },
-                ],
-            }),
+                x: utils.withGrid(5),
+                y: utils.withGrid(5),
+            },
         },
         // Define walls for Kitchen map
         walls: {

@@ -14,51 +14,65 @@ export class Overworld {
         this.map = null; // Reference to the game map
     }
 
-    // Method to start the game loop for rendering and updating the game
-    startGameLoop() {
-        const step = () => {
-            // Clear the canvas before rendering
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    gameLoopStepWork(delta) {
+        //Clear off the canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-            // Establish the camera person for the current view
-            const cameraPerson = this.map.gameObjects.hero;
+        //Establish the camera person
+        const cameraPerson = this.map.gameObjects.hero;
 
-            // Update all game objects
-            Object.values(this.map.gameObjects).forEach((object) => {
-                object.update({
-                    // Arrow input for movement
-                    arrow: this.directionInput.direction,
-                    // Reference to the game map
-                    map: this.map,
-                });
+        //Update all objects
+        Object.values(this.map.gameObjects).forEach((object) => {
+            object.update({
+                delta,
+                arrow: this.directionInput.direction,
+                map: this.map,
+            });
+        });
+
+        //Draw Lower layer
+        this.map.drawLowerImage(this.ctx, cameraPerson);
+
+        //Draw Game Objects
+        Object.values(this.map.gameObjects)
+            .sort((a, b) => {
+                return a.y - b.y;
+            })
+            .forEach((object) => {
+                object.sprite.draw(this.ctx, cameraPerson);
             });
 
-            // Draw the lower layer of the map
-            this.map.drawLowerImage(this.ctx, cameraPerson);
+        //Draw Upper layer
+        this.map.drawUpperImage(this.ctx, cameraPerson);
+    }
 
-            // Draw game objects sorted by their y-coordinates
-            Object.values(this.map.gameObjects)
-                .sort((a, b) => {
-                    return a.y - b.y;
-                })
-                .forEach((object) => {
-                    // Draw each game object sprite
-                    object.sprite.draw(this.ctx, cameraPerson);
-                });
+    // Method to start the game loop for rendering and updating the game
+    startGameLoop() {
+        let previousMs;
+        const step = 1 / 60;
 
-            // Draw the upper layer of the map
-            this.map.drawUpperImage(this.ctx, cameraPerson);
-
-            if (!this.map.isPaused) {
-                // Request the next animation frame
-                requestAnimationFrame(() => {
-                    // Repeat the rendering process recursively
-                    step();
-                });
+        const stepFn = (timestampMs) => {
+            // Stop here if paused
+            if (this.map.isPaused) {
+                return;
             }
+            if (previousMs === undefined) {
+                previousMs = timestampMs;
+            }
+
+            let delta = (timestampMs - previousMs) / 1000;
+            while (delta >= step) {
+                this.gameLoopStepWork(delta);
+                delta -= step;
+            }
+            previousMs = timestampMs - delta * 1000; // Make sure we don't lose unprocessed (delta) time
+
+            // Business as usual tick
+            requestAnimationFrame(stepFn);
         };
-        // Start the rendering loop
-        step();
+
+        // First tick
+        requestAnimationFrame(stepFn);
     }
 
     bindActionInput() {
@@ -96,11 +110,9 @@ export class Overworld {
 
         if (heroInitialState) {
             const { hero } = this.map.gameObjects;
-            this.map.removeWall(hero.x, hero.y);
             this.map.gameObjects.hero.x = heroInitialState.x;
             this.map.gameObjects.hero.y = heroInitialState.y;
             this.map.gameObjects.hero.direction = heroInitialState.direction;
-            this.map.addWall(hero.x, hero.y);
         }
 
         this.progress.mapId = mapConfig.id;
@@ -116,7 +128,8 @@ export class Overworld {
         this.titleScreen = new TitleScreen({
             progress: this.progress,
         });
-        const useSaveFile = await this.titleScreen.init(container);
+        //const useSaveFile = await this.titleScreen.init(container);
+        const useSaveFile = false;
         let initialHeroState = null;
         if (useSaveFile) {
             this.progress.load();

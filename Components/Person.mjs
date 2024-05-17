@@ -8,6 +8,7 @@ export class Person extends GameObject {
         this.movingProgressRemaining = 0;
         // Indicates if the person is currently standing still
         this.isStanding = false;
+        this.intentPosition = null;
         // Indicates if the person is player-controlled
         this.isPlayerControlled = config.isPlayerControlled || false;
         // Object to update position based on direction
@@ -52,6 +53,9 @@ export class Person extends GameObject {
 
     // Method to initiate a behavior for the person
     startBehavior(state, behavior) {
+        if (!this.isMounted) {
+            return;
+        }
         // Set character direction based on behavior
         this.direction = behavior.direction;
 
@@ -68,10 +72,10 @@ export class Person extends GameObject {
                 return;
             }
 
-            // Ready to walk - update position and initiate movement
-            state.map.moveWall(this.x, this.y, this.direction);
             // Arbitrary value indicating movement duration
             this.movingProgressRemaining = 16;
+            const intentPosition = utils.nextPosition(this.x, this.y, this.direction);
+            this.intentPosition = [intentPosition.x, intentPosition.y];
             // Update sprite to reflect walking animation
             this.updateSprite(state);
         }
@@ -100,6 +104,7 @@ export class Person extends GameObject {
 
         if (this.movingProgressRemaining === 0) {
             // Emit event when movement is complete
+            this.intentPosition = null;
             utils.emitEvent("PersonWalkingComplete", {
                 // Emit event when walking is complete
                 whoId: this.id,

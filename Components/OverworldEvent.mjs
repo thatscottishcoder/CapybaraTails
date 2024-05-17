@@ -27,10 +27,7 @@ export class OverworldEvent {
         //Set up a handler to complete when correct person is done walking, then resolve the event
         const completeHandler = (e) => {
             if (e.detail.whoId === this.event.who) {
-                document.removeEventListener(
-                    "PersonStandComplete",
-                    completeHandler
-                );
+                document.removeEventListener("PersonStandComplete", completeHandler);
                 resolve();
             }
         };
@@ -53,10 +50,7 @@ export class OverworldEvent {
         //Set up a handler to complete when correct person is done walking, then resolve the event
         const completeHandler = (e) => {
             if (e.detail.whoId === this.event.who) {
-                document.removeEventListener(
-                    "PersonWalkingComplete",
-                    completeHandler
-                );
+                document.removeEventListener("PersonWalkingComplete", completeHandler);
                 resolve();
             }
         };
@@ -66,9 +60,7 @@ export class OverworldEvent {
     textMessage(resolve) {
         if (this.event.faceHero) {
             const obj = this.map.gameObjects[this.event.faceHero];
-            obj.direction = utils.oppositeDirection(
-                this.map.gameObjects["hero"].direction
-            );
+            obj.direction = utils.oppositeDirection(this.map.gameObjects["hero"].direction);
         }
 
         const message = new TextMessage({
@@ -79,6 +71,9 @@ export class OverworldEvent {
     }
 
     changeMap(resolve) {
+        Object.values(this.map.gameObjects).forEach((obj) => {
+            obj.isMounted = false;
+        });
         const sceneTransition = new SceneTransition();
         sceneTransition.init(document.querySelector(".game-container"), () => {
             this.map.overworld.startMap(window.OverworldMaps[this.event.map], {

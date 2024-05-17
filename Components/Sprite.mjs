@@ -59,7 +59,7 @@ export class Sprite {
         // Current frame index
         this.currentAnimationFrame = 0;
         // Frame limit for animation
-        this.animationFrameLimit = config.animationFrameLimit || 24;
+        this.animationFrameLimit = config.animationFrameLimit || 8;
         // Progress counter for animation frames
         this.animationFrameProgress = this.animationFrameLimit;
 
@@ -69,9 +69,7 @@ export class Sprite {
 
     // Getter for retrieving the current frame of animation
     get frame() {
-        return this.animations[this.currentAnimation][
-            this.currentAnimationFrame
-        ];
+        return this.animations[this.currentAnimation][this.currentAnimationFrame];
     }
 
     // Method to set the current animation
@@ -115,18 +113,7 @@ export class Sprite {
 
         // Draw the main image if it's loaded
         const [frameX, frameY] = this.frame;
-        this.isLoaded &&
-            ctx.drawImage(
-                this.image,
-                frameX * 32,
-                frameY * 32,
-                32,
-                32,
-                x,
-                y,
-                32,
-                32
-            );
+        this.isLoaded && ctx.drawImage(this.image, frameX * 32, frameY * 32, 32, 32, x, y, 32, 32);
 
         // Update animation progress after drawing
         this.updateAnimationProgress();
