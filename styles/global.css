@@ -7,6 +7,7 @@
 @import url("./SubmissionMenu.css");
 @import url("./Team.css");
 @import url("./TextMessage.css");
+@import url("./TitleScreen.css");
 
 :root {
     --border-color: #291D4D;

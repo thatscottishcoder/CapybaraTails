@@ -3,6 +3,7 @@ import { OverworldMap } from "./OverworldMap.mjs";
 import { Hud } from "./Hud.mjs";
 import { DirectionInput } from "./DirectionInput.mjs";
 import { Progress } from "./Progress.mjs";
+import { TitleScreen } from "./TitleScreen.mjs";
 
 export class Overworld {
     constructor(config) {
@@ -109,11 +110,15 @@ export class Overworld {
     }
 
     // Method to initialize the game
-    init() {
+    async init() {
+        const container = document.querySelector(".game-container");
         this.progress = new Progress();
+        this.titleScreen = new TitleScreen({
+            progress: this.progress,
+        });
+        const useSaveFile = await this.titleScreen.init(container);
         let initialHeroState = null;
-        const saveFile = this.progress.getSaveFile();
-        if (saveFile) {
+        if (useSaveFile) {
             this.progress.load();
             initialHeroState = {
                 x: this.progress.startingHeroX,
@@ -122,7 +127,7 @@ export class Overworld {
             };
         }
         this.hud = new Hud();
-        this.hud.init(document.querySelector(".game-container"));
+        this.hud.init(container);
         // Start the game with the DemoRoom map configuration
         this.startMap(window.OverworldMaps[this.progress.mapId], initialHeroState);
 
