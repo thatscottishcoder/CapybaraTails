@@ -274,20 +274,24 @@ window.OverworldMaps = {
             // Walls at y-11
             [utils.asGridCoord(5, 11)]: true,
         },
-        // Defines cutscene spaces for DemoRoom map
         cutsceneSpaces: {
-            // [utils.asGridCoord(7, 4)]: [
-            //     {
-            //         events: [
-            //             { who: "npcB", type: "walk", direction: "left" },
-            //             { who: "npcB", type: "stand", direction: "up", time: 500 },
-            //             { type: "textMessage", text: "You can't be in there!" },
-            //             { who: "npcB", type: "walk", direction: "right" },
-            //             { who: "hero", type: "walk", direction: "down" },
-            //             { who: "hero", type: "walk", direction: "left" },
-            //         ]
-            //     }
-            // ],
+            [utils.asGridCoord(7, 4)]: [
+                {
+                    events: [
+                        { who: "npcB", type: "walk", direction: "left" },
+                        {
+                            who: "npcB",
+                            type: "stand",
+                            direction: "up",
+                            time: 500,
+                        },
+                        { type: "textMessage", text: "You can't be in there!" },
+                        { who: "npcB", type: "walk", direction: "right" },
+                        { who: "hero", type: "walk", direction: "down" },
+                        { who: "hero", type: "walk", direction: "left" },
+                    ],
+                },
+            ],
             [utils.asGridCoord(5, 10)]: [
                 {
                     events: [
@@ -468,7 +472,7 @@ window.OverworldMaps = {
                             type: "changeMap",
                             map: "Kitchen",
                             x: utils.withGrid(5),
-                            y: utils.withGrid(10),
+                            y: utils.withGrid(9),
                             direction: "up",
                         },
                     ],

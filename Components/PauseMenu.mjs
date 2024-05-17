@@ -2,11 +2,13 @@ import { KeyboardMenu } from "./KeyboardMenu.mjs";
 import { KeyPressListener } from "./KeyPressListener.mjs";
 
 export class PauseMenu {
-    constructor({ onComplete }) {
+    constructor({ progress, onComplete }) {
+        this.progress = progress;
         this.onComplete = onComplete;
     }
 
     getOptions(pageKey) {
+        //Case 1: Show the first page of options
         if (pageKey === "root") {
             const lineupPizzas = playerState.lineup.map((id) => {
                 const { pizzaId } = playerState.pizzas[id];
@@ -24,7 +26,11 @@ export class PauseMenu {
                 {
                     label: "Save",
                     description: "Save your progress",
-                    handler: () => {},
+                    handler: () => {
+                        this.progress.save();
+                        this.close();
+                        console.log(this.progress);
+                    },
                 },
                 {
                     label: "Close",
@@ -35,6 +41,8 @@ export class PauseMenu {
                 },
             ];
         }
+
+        //Case 2: Show the options for just one pizza (by id)
         const unequipped = Object.keys(playerState.pizzas)
             .filter((id) => {
                 return playerState.lineup.indexOf(id) === -1;
@@ -43,7 +51,7 @@ export class PauseMenu {
                 const { pizzaId } = playerState.pizzas[id];
                 const base = Pizzas[pizzaId];
                 return {
-                    label: `Swap for ${base.name} `,
+                    label: `Swap for ${base.name}`,
                     description: base.description,
                     handler: () => {
                         playerState.swapLineup(pageKey, id);
@@ -51,6 +59,7 @@ export class PauseMenu {
                     },
                 };
             });
+
         return [
             ...unequipped,
             {
@@ -76,8 +85,8 @@ export class PauseMenu {
         this.element.classList.add("PauseMenu");
         this.element.classList.add("overlayMenu");
         this.element.innerHTML = `
-            <h2>Pause Menu</h2>
-        `;
+        <h2>Pause Menu</h2>
+      `;
     }
 
     close() {
@@ -94,7 +103,9 @@ export class PauseMenu {
         });
         this.keyboardMenu.init(this.element);
         this.keyboardMenu.setOptions(this.getOptions("root"));
+
         container.appendChild(this.element);
+
         utils.wait(200);
         this.esc = new KeyPressListener("Escape", () => {
             this.close();

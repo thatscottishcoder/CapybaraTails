@@ -1,4 +1,4 @@
-class PlayerState {
+export class PlayerState {
     constructor() {
         this.pizzas = {
             p1: {
@@ -62,7 +62,6 @@ class PlayerState {
             this.lineup.push(newId);
         }
         utils.emitEvent("LineupChanged");
-        console.log(this);
     }
 
     swapLineup(oldId, incomingId) {
@@ -78,5 +77,3 @@ class PlayerState {
     }
 }
 window.playerState = new PlayerState();
-
-export default PlayerState;

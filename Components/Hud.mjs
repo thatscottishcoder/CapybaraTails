@@ -1,4 +1,4 @@
-import PlayerState from "./State/PlayerState.mjs";
+import { PlayerState } from "./State/PlayerState.mjs";
 import { Combatant } from "./Battle/Combatant.mjs";
 
 export class Hud {

@@ -2,6 +2,7 @@ import { KeyPressListener } from "./KeyPressListener.mjs";
 import { OverworldMap } from "./OverworldMap.mjs";
 import { Hud } from "./Hud.mjs";
 import { DirectionInput } from "./DirectionInput.mjs";
+import { Progress } from "./Progress.mjs";
 
 export class Overworld {
     constructor(config) {
@@ -93,20 +94,41 @@ export class Overworld {
         this.map.mountObjects();
 
         if (heroInitialState) {
+            const { hero } = this.map.gameObjects;
+            this.map.removeWall(hero.x, hero.y);
             this.map.gameObjects.hero.x = heroInitialState.x;
             this.map.gameObjects.hero.y = heroInitialState.y;
             this.map.gameObjects.hero.direction = heroInitialState.direction;
+            this.map.addWall(hero.x, hero.y);
         }
 
-        console.log(this.map.walls);
+        this.progress.mapId = mapConfig.id;
+        this.progress.startingHeroX = this.map.gameObjects.hero.x;
+        this.progress.startingHeroY = this.map.gameObjects.hero.y;
+        this.progress.startingHeroDirection =
+            this.map.gameObjects.hero.direction;
     }
 
     // Method to initialize the game
     init() {
+        this.progress = new Progress();
+        let initialHeroState = null;
+        const saveFile = this.progress.getSaveFile();
+        if (saveFile) {
+            this.progress.load();
+            initialHeroState = {
+                x: this.progress.startingHeroX,
+                y: this.progress.startingHeroY,
+                direction: this.progress.startingHeroDirection,
+            };
+        }
         this.hud = new Hud();
         this.hud.init(document.querySelector(".game-container"));
         // Start the game with the DemoRoom map configuration
-        this.startMap(window.OverworldMaps.Kitchen);
+        this.startMap(
+            window.OverworldMaps[this.progress.mapId],
+            initialHeroState
+        );
 
         // Bind input for action trigger
         this.bindActionInput();

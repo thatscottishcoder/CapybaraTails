@@ -123,6 +123,7 @@ export class SubmissionMenu {
             target: action.targetType === "friendly" ? this.caster : this.enemy,
             instanceId,
         });
+        console.log(instanceId);
     }
 
     decide() {
