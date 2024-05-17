@@ -105,8 +105,7 @@ export class Overworld {
         this.progress.mapId = mapConfig.id;
         this.progress.startingHeroX = this.map.gameObjects.hero.x;
         this.progress.startingHeroY = this.map.gameObjects.hero.y;
-        this.progress.startingHeroDirection =
-            this.map.gameObjects.hero.direction;
+        this.progress.startingHeroDirection = this.map.gameObjects.hero.direction;
     }
 
     // Method to initialize the game
@@ -125,10 +124,7 @@ export class Overworld {
         this.hud = new Hud();
         this.hud.init(document.querySelector(".game-container"));
         // Start the game with the DemoRoom map configuration
-        this.startMap(
-            window.OverworldMaps[this.progress.mapId],
-            initialHeroState
-        );
+        this.startMap(window.OverworldMaps[this.progress.mapId], initialHeroState);
 
         // Bind input for action trigger
         this.bindActionInput();
