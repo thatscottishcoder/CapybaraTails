@@ -3,73 +3,35 @@ import { Combatant } from "./Combatant.mjs";
 import { Team } from "./Team.mjs";
 import { TurnCycle } from "./TurnCycle.mjs";
 
+// Represents a battle in the game.
 export class Battle {
     constructor({ enemy, map, onComplete }) {
         this.enemy = enemy;
         this.map = map;
         this.onComplete = onComplete;
 
-        this.combatants = {
-            // "player1": new Combatant({
-            //   ...Pizzas.s001,
-            //   team: "player",
-            //   hp: 30,
-            //   maxHp: 50,
-            //   xp: 95,
-            //   maxXp: 100,
-            //   level: 1,
-            //   status: { type: "saucy" },
-            //   isPlayerControlled: true
-            // }, this),
-            // "player2": new Combatant({
-            //   ...Pizzas.s002,
-            //   team: "player",
-            //   hp: 30,
-            //   maxHp: 50,
-            //   xp: 75,
-            //   maxXp: 100,
-            //   level: 1,
-            //   status: null,
-            //   isPlayerControlled: true
-            // }, this),
-            // "enemy1": new Combatant({
-            //   ...Pizzas.v001,
-            //   team: "enemy",
-            //   hp: 1,
-            //   maxHp: 50,
-            //   xp: 20,
-            //   maxXp: 100,
-            //   level: 1,
-            // }, this),
-            // "enemy2": new Combatant({
-            //   ...Pizzas.f001,
-            //   team: "enemy",
-            //   hp: 25,
-            //   maxHp: 50,
-            //   xp: 30,
-            //   maxXp: 100,
-            //   level: 1,
-            // }, this)
-        };
+        // A dictionary of combatants in the battle.
+        this.combatants = {};
 
+        // The active combatants in the battle.
         this.activeCombatants = {
             player: null, //"player1",
             enemy: null, //"enemy1",
         };
 
-        //Dynamically add the Player team
+        // Dynamically add the Player team
         window.playerState.lineup.forEach((id) => {
             this.addCombatant(id, "player", window.playerState.pizzas[id]);
         });
-        //Now the enemy team
+        // Now the enemy team
         Object.keys(this.enemy.pizzas).forEach((key) => {
             this.addCombatant("e_" + key, "enemy", this.enemy.pizzas[key]);
         });
 
-        //Start empty
+        // Start empty
         this.items = [];
 
-        //Add in player items
+        // Add in player items
         window.playerState.items.forEach((item) => {
             this.items.push({
                 ...item,
@@ -77,9 +39,11 @@ export class Battle {
             });
         });
 
+        // A dictionary of used instance IDs.
         this.usedInstanceIds = {};
     }
 
+    // Adds a combatant to the battle.
     addCombatant(id, team, config) {
         this.combatants[id] = new Combatant(
             {
@@ -90,10 +54,11 @@ export class Battle {
             },
             this
         );
-        //Populate first active pizza
+        // Populate first active pizza
         this.activeCombatants[team] = this.activeCombatants[team] || id;
     }
 
+    // Creates the battle element.
     createElement() {
         this.element = document.createElement("div");
         this.element.classList.add("Battle");
@@ -108,11 +73,15 @@ export class Battle {
       `;
     }
 
+    // Initializes the battle.
     init(container) {
         this.createElement();
         container.appendChild(this.element);
 
+        // The player team.
         this.playerTeam = new Team("player", "Hero");
+
+        // The enemy team.
         this.enemyTeam = new Team("enemy", "Bully");
 
         Object.keys(this.combatants).forEach((key) => {
@@ -120,7 +89,7 @@ export class Battle {
             combatant.id = key;
             combatant.init(this.element);
 
-            //Add to correct team
+            // Add to correct team
             if (combatant.team === "player") {
                 this.playerTeam.combatants.push(combatant);
             } else if (combatant.team === "enemy") {
@@ -131,6 +100,7 @@ export class Battle {
         this.playerTeam.init(this.element);
         this.enemyTeam.init(this.element);
 
+        // The turn cycle for the battle.
         this.turnCycle = new TurnCycle({
             battle: this,
             onNewEvent: (event) => {
@@ -147,24 +117,20 @@ export class Battle {
                         const playerStatePizza = playerState.pizzas[id];
                         const combatant = this.combatants[id];
                         if (combatant) {
-                            playerStatePizza.hp = combatant.hp;
-                            playerStatePizza.xp = combatant.xp;
-                            playerStatePizza.maxXp = combatant.maxXp;
+                            playerStatePizza.health = combatant.health;
+                            playerStatePizza.experience = combatant.experience;
                             playerStatePizza.level = combatant.level;
                         }
                     });
-
-                    //Get rid of player used items
-                    playerState.items = playerState.items.filter((item) => {
-                        return !this.usedInstanceIds[item.instanceId];
-                    });
-                    utils.emitEvent("PlayerStateUpdated");
                 }
-
-                this.element.remove();
-                this.onComplete(winner === "player");
+                // Run the on-complete callback
+                this.onComplete(winner);
             },
         });
         this.turnCycle.init();
+    }
+    // Progresses the battle by one cycle.
+    progress() {
+        this.turnCycle.next();
     }
 }

@@ -1,28 +1,28 @@
 export class TurnCycle {
+    // Constructor for the TurnCycle class
     constructor({ battle, onNewEvent, onWinner }) {
-        this.battle = battle;
-        this.onNewEvent = onNewEvent;
-        this.onWinner = onWinner;
-        this.currentTeam = "player"; //or "enemy"
+        this.battle = battle; // The battle instance containing combatants and state
+        this.onNewEvent = onNewEvent; // Callback to handle new events
+        this.onWinner = onWinner; // Callback to handle winner announcement
+        this.currentTeam = "player"; // Track whose turn it is, "player" or "enemy"
     }
 
+    // Executes a turn in the battle
     async turn() {
-        //Get the caster
-        const casterId = this.battle.activeCombatants[this.currentTeam];
-        const caster = this.battle.combatants[casterId];
-        const enemyId =
-            this.battle.activeCombatants[
-                caster.team === "player" ? "enemy" : "player"
-            ];
-        const enemy = this.battle.combatants[enemyId];
+        // Get the caster
+        const casterId = this.battle.activeCombatants[this.currentTeam]; // ID of the current active combatant
+        const caster = this.battle.combatants[casterId]; // The current active combatant
+        const enemyId = this.battle.activeCombatants[caster.team === "player" ? "enemy" : "player"]; // ID of the opposing combatant
+        const enemy = this.battle.combatants[enemyId]; // The opposing combatant
 
+        // Get the submission from the event
         const submission = await this.onNewEvent({
             type: "submissionMenu",
             caster,
             enemy,
         });
 
-        //Stop here if we are replacing this Pizza
+        // Handle replacement of a combatant
         if (submission.replacement) {
             await this.onNewEvent({
                 type: "replace",
@@ -36,20 +36,14 @@ export class TurnCycle {
             return;
         }
 
+        // Handle item usage
         if (submission.instanceId) {
-            //Add to list to persist to player state later
-            this.battle.usedInstanceIds[submission.instanceId] = true;
-
-            //Removing item from battle state
-            this.battle.items = this.battle.items.filter(
-                (i) => i.instanceId !== submission.instanceId
-            );
+            this.battle.usedInstanceIds[submission.instanceId] = true; // Mark item as used
+            this.battle.items = this.battle.items.filter((i) => i.instanceId !== submission.instanceId); // Remove item from battle state
         }
 
-        const resultingEvents = caster.getReplacedEvents(
-            submission.action.success
-        );
-
+        // Get and execute replaced events
+        const resultingEvents = caster.getReplacedEvents(submission.action.success);
         for (let i = 0; i < resultingEvents.length; i++) {
             const event = {
                 ...resultingEvents[i],
@@ -61,7 +55,7 @@ export class TurnCycle {
             await this.onNewEvent(event);
         }
 
-        //Did the target die?
+        // Check if the target died
         const targetDead = submission.target.hp <= 0;
         if (targetDead) {
             await this.onNewEvent({
@@ -69,6 +63,7 @@ export class TurnCycle {
                 text: `${submission.target.name} is ruined!`,
             });
 
+            // Handle XP gain if the enemy is defeated
             if (submission.target.team === "enemy") {
                 const playerActivePizzaId = this.battle.activeCombatants.player;
                 const xp = submission.target.givesXp;
@@ -85,7 +80,7 @@ export class TurnCycle {
             }
         }
 
-        //Do we have a winning team?
+        // Check if there's a winning team
         const winner = this.getWinningTeam();
         if (winner) {
             await this.onNewEvent({
@@ -96,7 +91,7 @@ export class TurnCycle {
             return;
         }
 
-        //We have a dead target, but still no winner, so bring in a replacement
+        // Handle replacement if target is dead and no winner
         if (targetDead) {
             const replacement = await this.onNewEvent({
                 type: "replacementMenu",
@@ -112,8 +107,7 @@ export class TurnCycle {
             });
         }
 
-        //Check for post events
-        //(Do things AFTER your original turn submission)
+        // Handle post events
         const postEvents = caster.getPostEvents();
         for (let i = 0; i < postEvents.length; i++) {
             const event = {
@@ -126,45 +120,45 @@ export class TurnCycle {
             await this.onNewEvent(event);
         }
 
-        //Check for status expire
+        // Handle status expiration
         const expiredEvent = caster.decrementStatus();
         if (expiredEvent) {
             await this.onNewEvent(expiredEvent);
         }
-
+        // Proceed to next turn
         this.nextTurn();
     }
 
+    // Advances to the next turn, switching the active team
     nextTurn() {
-        this.currentTeam = this.currentTeam === "player" ? "enemy" : "player";
-        this.turn();
+        this.currentTeam = this.currentTeam === "player" ? "enemy" : "player"; // Switch the active team
+        this.turn(); // Start the next turn
     }
 
+    // Determines the winning team based on remaining combatants' HP
     getWinningTeam() {
-        let aliveTeams = {};
+        let aliveTeams = {}; // Track alive teams
         Object.values(this.battle.combatants).forEach((c) => {
             if (c.hp > 0) {
-                aliveTeams[c.team] = true;
+                aliveTeams[c.team] = true; // Mark team as alive if combatant has HP
             }
         });
         if (!aliveTeams["player"]) {
-            return "enemy";
+            return "enemy"; // Enemy wins if no player combatants are alive
         }
         if (!aliveTeams["enemy"]) {
-            return "player";
+            return "player"; // Player wins if no enemy combatants are alive
         }
-        return null;
+        return null; // No winner yet
     }
 
+    // Initialises the turn cycle and starts the first turn
     async init() {
         await this.onNewEvent({
             type: "textMessage",
-            text:
-                this.battle.enemy.intro ||
-                `${this.battle.enemy.name} wants to throw down!`,
+            text: this.battle.enemy.intro || `${this.battle.enemy.name} wants to throw down!`,
         });
-
-        //Start the first turn!
+        // Start the first turn!
         this.turn();
     }
 }
