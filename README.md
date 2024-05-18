@@ -11,3 +11,5 @@
 -   Credit belongs to myself for:
     -   Compacting of the code into modules, as opposed to including all JS files within the HTML.
     -   Creating dynamic battle scenes based on the player's current map location.
+    -   Modifying code to allow opening cutscene to play on New Game.
+    -   Modifying code to start with no pizzas, and to allow save game with no pizzas.
