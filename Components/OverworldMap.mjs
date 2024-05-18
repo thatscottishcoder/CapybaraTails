@@ -88,9 +88,6 @@ export class OverworldMap {
             this.gameObjects[key].id = key;
             instance.mount(this);
             //TODO: Implement logic to determine if the object should be mounted (active)
-
-            // Call the object's mount function with the map context
-            //object.mount(this);
         });
     }
 
@@ -166,26 +163,83 @@ window.OverworldMaps = {
                 x: utils.withGrid(5),
                 y: utils.withGrid(5),
             },
-            npcA: {
+            chefIsabella: {
                 type: "Person",
-                x: utils.withGrid(2),
+                x: utils.withGrid(10),
                 y: utils.withGrid(6),
                 src: "/images/characters/people/npc4.png",
                 behaviorLoop: [
-                    { type: "stand", direction: "left", time: 2000 },
+                    { type: "walk", direction: "right" },
                     { type: "walk", direction: "up" },
-                    { type: "stand", direction: "left", time: 2000 },
+                    { type: "stand", direction: "up", time: 1000 },
                     { type: "walk", direction: "down" },
-                    { type: "stand", direction: "left", time: 2000 },
                     { type: "walk", direction: "down" },
-                    { type: "stand", direction: "left", time: 2000 },
+                    { type: "walk", direction: "down" },
+                    { type: "walk", direction: "left" },
+                    { type: "stand", direction: "down", time: 1000 },
+                    { type: "walk", direction: "left" },
+                    { type: "walk", direction: "left" },
                     { type: "walk", direction: "up" },
-                    { type: "stand", direction: "left", time: 2000 },
+                    { type: "walk", direction: "up" },
+                    { type: "walk", direction: "right" },
+                    { type: "walk", direction: "right" },
+                    { type: "stand", direction: "down", time: 1000 },
                 ],
                 talking: [
                     {
-                        events: [{ type: "textMessage", text: "You made it!", faceHero: "npcA" }],
+                        required: ["TALKED_TO_CHEF_ISABELLA_1"],
+                        events: [
+                            {
+                                type: "textMessage",
+                                text: "You should go and speak with Chef Alfredo.",
+                                faceHero: "chefIsabella",
+                            },
+                        ],
                     },
+                    {
+                        required: ["TALKED_TO_CHEF_ALFREDO_1"],
+                        events: [
+                            {
+                                type: "textMessage",
+                                text: "Excellent! Now that you've learned how to craft pizzas, it's time to learn how to use them in battle.",
+                                faceHero: "chefIsabella",
+                            },
+                            {
+                                type: "battle",
+                                enemyId: "chefIsabella",
+                            },
+                            {
+                                type: "addStoryFlag",
+                                flag: "DEFEATED_CHEF_ISABELLA",
+                            },
+                            {
+                                type: "textMessage",
+                                text: "Well done! Now I think you're ready to go out there.",
+                                faceHero: "chefIsabella",
+                            },
+                            {
+                                type: "textMessage",
+                                text: "Remember, you'll need to hone your skills if you want to defeat The Supreme Toppinger.",
+                                faceHero: "chefIsabella",
+                            },
+                        ],
+                    },
+                ],
+            },
+            chefAlfredo: {
+                type: "Person",
+                x: utils.withGrid(2),
+                y: utils.withGrid(6),
+                src: "/images/characters/people/npc5.png",
+                behaviorLoop: [
+                    { type: "stand", direction: "left", time: 800 },
+                    { type: "walk", direction: "up" },
+                    { type: "stand", direction: "left", time: 800 },
+                    { type: "walk", direction: "down" },
+                    { type: "stand", direction: "left", time: 800 },
+                    { type: "walk", direction: "down" },
+                    { type: "stand", direction: "left", time: 800 },
+                    { type: "walk", direction: "up" },
                 ],
             },
             pizzaStone: {
@@ -193,7 +247,7 @@ window.OverworldMaps = {
                 x: utils.withGrid(3),
                 y: utils.withGrid(9),
                 storyFlag: "USED_PIZZA_STONE",
-                pizzas: ["v001", "f001"],
+                pizzas: ["s001"],
             },
         },
         // Define walls for Kitchen map
@@ -271,7 +325,7 @@ window.OverworldMaps = {
                             type: "changeMap",
                             map: "DiningRoom",
                             x: utils.withGrid(7),
-                            y: utils.withGrid(4),
+                            y: utils.withGrid(3),
                             direction: "down",
                         },
                     ],
@@ -452,7 +506,7 @@ window.OverworldMaps = {
                             type: "changeMap",
                             map: "Kitchen",
                             x: utils.withGrid(5),
-                            y: utils.withGrid(9),
+                            y: utils.withGrid(10),
                             direction: "up",
                         },
                     ],
@@ -465,7 +519,7 @@ window.OverworldMaps = {
                             type: "changeMap",
                             map: "Street",
                             x: utils.withGrid(5),
-                            y: utils.withGrid(10),
+                            y: utils.withGrid(9),
                             direction: "down",
                         },
                     ],
@@ -481,13 +535,13 @@ window.OverworldMaps = {
         upperSrc: "/images/maps/StreetUpper.png",
         battleSrc: "/images/maps/StreetBattle.png",
         gameObjects: {
-            hero: new Person({
-                // Indicates that the player controls this character
-                isPlayerControlled: true,
-                // Initial x and y coordinates of the hero
-                x: utils.withGrid(5),
-                y: utils.withGrid(10),
-            }),
+            // hero: new Person({
+            //     // Indicates that the player controls this character
+            //     isPlayerControlled: true,
+            //     // Initial x and y coordinates of the hero
+            //     x: utils.withGrid(5),
+            //     y: utils.withGrid(10),
+            // }),
             // npcA: new Person({
             //     // Initial x and y coordinates of npcA
             //     x: utils.withGrid(7),
@@ -537,9 +591,16 @@ window.OverworldMaps = {
             //     //     { type: "walk", direction: "down" },
             //     // ],
             //     talking: [
-
             //     ]
             // }),
+        },
+        configObjects: {
+            hero: {
+                type: "Person",
+                isPlayerControlled: true,
+                x: utils.withGrid(5),
+                y: utils.withGrid(10),
+            },
         },
         // Define walls for DemoRoom map
         walls: {
@@ -663,7 +724,7 @@ window.OverworldMaps = {
                             type: "changeMap",
                             map: "DiningRoom",
                             x: utils.withGrid(6),
-                            y: utils.withGrid(11),
+                            y: utils.withGrid(12),
                             direction: "up",
                         },
                     ],
@@ -671,12 +732,12 @@ window.OverworldMaps = {
             ],
             [utils.asGridCoord(25, 5)]: [
                 {
-                    events: [{ type: "changeMap", map: "StreetNorth" }],
+                    events: [{ type: "changeMap", map: "StreetNorth", x: utils.withGrid(7), y: utils.withGrid(16), direction: "up" }],
                 },
             ],
             [utils.asGridCoord(29, 9)]: [
                 {
-                    events: [{ type: "changeMap", map: "PizzaShop" }],
+                    events: [{ type: "changeMap", map: "PizzaShop", x: utils.withGrid(5), y: utils.withGrid(12), direction: "up" }],
                 },
             ],
         },
@@ -689,13 +750,13 @@ window.OverworldMaps = {
         upperSrc: "/images/maps/PizzaShopUpper.png",
         battleSrc: "/images/maps/PizzaShopBattle.png",
         gameObjects: {
-            hero: new Person({
-                // Indicates that the player controls this character
-                isPlayerControlled: true,
-                // Initial x and y coordinates of the hero
-                x: utils.withGrid(5),
-                y: utils.withGrid(11),
-            }),
+            // hero: new Person({
+            //     // Indicates that the player controls this character
+            //     isPlayerControlled: true,
+            //     // Initial x and y coordinates of the hero
+            //     x: utils.withGrid(5),
+            //     y: utils.withGrid(11),
+            // }),
             // npcA: new Person({
             //     // Initial x and y coordinates of npcA
             //     x: utils.withGrid(7),
@@ -745,9 +806,16 @@ window.OverworldMaps = {
             //     //     { type: "walk", direction: "down" },
             //     // ],
             //     talking: [
-
             //     ]
             // }),
+        },
+        configObjects: {
+            hero: {
+                type: "Person",
+                isPlayerControlled: true,
+                x: utils.withGrid(5),
+                y: utils.withGrid(11),
+            },
         },
         // Define walls for DemoRoom map
         walls: {
@@ -836,7 +904,7 @@ window.OverworldMaps = {
             // ],
             [utils.asGridCoord(5, 12)]: [
                 {
-                    events: [{ type: "changeMap", map: "Street" }],
+                    events: [{ type: "changeMap", map: "Street", x: utils.withGrid(29), y: utils.withGrid(9), direction: "down" }],
                 },
             ],
         },
@@ -849,13 +917,13 @@ window.OverworldMaps = {
         upperSrc: "/images/maps/StreetNorthUpper.png",
         battleSrc: "images/maps/StreetBattle.png",
         gameObjects: {
-            hero: new Person({
-                // Indicates that the player controls this character
-                isPlayerControlled: true,
-                // Initial x and y coordinates of the hero
-                x: utils.withGrid(7),
-                y: utils.withGrid(15),
-            }),
+            // hero: new Person({
+            //     // Indicates that the player controls this character
+            //     isPlayerControlled: true,
+            //     // Initial x and y coordinates of the hero
+            //     x: utils.withGrid(7),
+            //     y: utils.withGrid(15),
+            // }),
             // npcA: new Person({
             //     // Initial x and y coordinates of npcA
             //     x: utils.withGrid(7),
@@ -905,9 +973,18 @@ window.OverworldMaps = {
             //     //     { type: "walk", direction: "down" },
             //     // ],
             //     talking: [
-
             //     ]
             // }),
+        },
+        configObjects: {
+            hero: {
+                type: "Person",
+                // Indicates that the player controls this character
+                isPlayerControlled: true,
+                // Initial x and y coordinates of the hero
+                x: utils.withGrid(7),
+                y: utils.withGrid(15),
+            },
         },
         // Define walls for DemoRoom map
         walls: {
@@ -1003,12 +1080,12 @@ window.OverworldMaps = {
             // ],
             [utils.asGridCoord(7, 5)]: [
                 {
-                    events: [{ type: "changeMap", map: "GreenKitchen" }],
+                    events: [{ type: "changeMap", map: "GreenKitchen", x: utils.withGrid(5), y: utils.withGrid(12), direction: "up" }],
                 },
             ],
             [utils.asGridCoord(7, 16)]: [
                 {
-                    events: [{ type: "changeMap", map: "Street" }],
+                    events: [{ type: "changeMap", map: "Street", x: utils.withGrid(25), y: utils.withGrid(5), direction: "down" }],
                 },
             ],
         },
@@ -1021,13 +1098,13 @@ window.OverworldMaps = {
         upperSrc: "/images/maps/GreenKitchenUpper.png",
         battleSrc: "/images/maps/GreenKitchenBattle.png",
         gameObjects: {
-            hero: new Person({
-                // Indicates that the player controls this character
-                isPlayerControlled: true,
-                // Initial x and y coordinates of the hero
-                x: utils.withGrid(5),
-                y: utils.withGrid(11),
-            }),
+            // hero: new Person({
+            //     // Indicates that the player controls this character
+            //     isPlayerControlled: true,
+            //     // Initial x and y coordinates of the hero
+            //     x: utils.withGrid(5),
+            //     y: utils.withGrid(11),
+            // }),
             // npcA: new Person({
             //     // Initial x and y coordinates of npcA
             //     x: utils.withGrid(7),
@@ -1077,9 +1154,18 @@ window.OverworldMaps = {
             //     //     { type: "walk", direction: "down" },
             //     // ],
             //     talking: [
-
             //     ]
             // }),
+        },
+        configObjects: {
+            hero: {
+                type: "Person",
+                // Indicates that the player controls this character
+                isPlayerControlled: true,
+                // Initial x and y coordinates of the hero
+                x: utils.withGrid(5),
+                y: utils.withGrid(11),
+            },
         },
         // Define walls for DemoRoom map
         walls: {
@@ -1159,7 +1245,7 @@ window.OverworldMaps = {
             // ],
             [utils.asGridCoord(5, 12)]: [
                 {
-                    events: [{ type: "changeMap", map: "StreetNorth" }],
+                    events: [{ type: "changeMap", map: "StreetNorth", x: utils.withGrid(7), y: utils.withGrid(5), direction: "down" }],
                 },
             ],
         },

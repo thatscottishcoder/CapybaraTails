@@ -1,31 +1,26 @@
 window.Enemies = {
-    "erio": {
-        name: "Erio",
-        src: "/images/characters/people/erio.png",
+    chefIsabella: {
+        name: "Chef Isabella",
+        src: "/images/characters/people/npc4.png",
         intro: "Prepare to face me in battle, puny pizza!",
         pizzas: {
-            "a": {
+            a: {
                 pizzaId: "s001",
                 maxHp: 50,
-                level: 1
+                level: 1,
             },
-            "b": {
-                pizzaId: "s002",
-                maxHp: 50,
-                level: 1
-            }
-        }
+        },
     },
-    "beth": {
+    beth: {
         name: "Beth",
         src: "/images/characters/people/npc1.png",
         pizzas: {
-            "a": {
+            a: {
                 pizzaId: "f001",
                 hp: 1,
                 maxHp: 50,
-                level: 1
-            }
-        }
-    }
-}
+                level: 1,
+            },
+        },
+    },
+};

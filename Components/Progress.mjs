@@ -20,7 +20,6 @@ export class Progress {
                 storyFlags: playerState.storyFlags,
             },
         };
-
         window.localStorage.setItem(this.saveFileKey, JSON.stringify(dataToSave));
     }
 
@@ -32,6 +31,7 @@ export class Progress {
     load() {
         const file = this.getSaveFile();
         if (file) {
+            console.log(this.getSaveFile());
             this.mapId = file.mapId;
             this.startingHeroX = file.startingHeroX;
             this.startingHeroY = file.startingHeroY;

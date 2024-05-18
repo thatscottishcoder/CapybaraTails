@@ -3,17 +3,7 @@ export class PlayerState {
     // Initialises the player's pizzas, lineup, items, and story flags
     constructor() {
         // Initialise pizzas with default values
-        this.pizzas = {
-            p1: {
-                pizzaId: "s001", // ID of the pizza
-                hp: 50, // Current health points
-                maxHp: 50, // Maximum health points
-                xp: 0, // Current experience points
-                maxXp: 100, // Maximum experience points for the current level
-                level: 1, // Current level
-                status: null, // Status effects
-            },
-        };
+        this.pizzas = {};
         this.lineup = ["p1"]; // Initial lineup
         this.items = [
             {
@@ -40,7 +30,7 @@ export class PlayerState {
             pizzaId,
             hp: 50, // Initial health points
             maxHp: 50, // Maximum health points
-            xp: 75, // Initial experience points
+            xp: 0, // Initial experience points
             maxXp: 100, // Maximum experience points for the current level
             level: 1, // Initial level
             status: null, // No status effects initially

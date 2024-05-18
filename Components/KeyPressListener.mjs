@@ -1,4 +1,5 @@
 export class KeyPressListener {
+    // Constructor for the KeyPressListener class
     constructor(keyCode, callback) {
         // Flag to ensure callback is triggered only once per key press
         let keySafe = true;

@@ -56,4 +56,55 @@ window.Actions = {
             { type: "textMessage", text: "{CASTER} recovers HP!" }, // Display HP recovery message
         ],
     },
+    /* Extra actions which could be added to game
+    *
+    // Action to add an extra cheesy slice to the target
+    extraCheeseSlice: {
+        name: "Extra Cheese Slice",
+        description: "Add an extra cheesy slice to the target",
+        targetType: Math.random() < 0.5 ? "friendly" : "enemy", // Randomly assign targetType
+        success: [
+            { type: "textMessage", text: "{CASTER} generously adds an {ACTION}!" },
+            { type: "animation", animation: "cheeseBurst" }, // Trigger a cheese burst animation
+            { type: "stateChange", heal: 15 }, // Restore 15 health points
+            { type: "textMessage", text: "{TARGET} enjoys the extra cheesiness!" },
+        ],
+    },
+    // Action to unleash a whirlwind of pepperoni slices
+    pepperoniWhirlwind: {
+        name: "Pepperoni Whirlwind",
+        description: "Unleash a whirlwind of pepperoni slices",
+        targetType: Math.random() < 0.5 ? "friendly" : "enemy", // Randomly assign targetType
+        success: [
+            { type: "textMessage", text: "{CASTER} summons a {ACTION}!" },
+            { type: "animation", animation: "whirlwind" }, // Trigger a pepperoni whirlwind animation
+            { type: "stateChange", damage: 20 }, // Inflict pepperoni damage of 20 points
+            { type: "textMessage", text: "{TARGET} gets caught in the pepperoni whirlwind!" },
+        ],
+    },
+    // Action to cause a meltdown of savory mushrooms
+    mushroomMeltdown: {
+        name: "Mushroom Meltdown",
+        description: "Cause a meltdown of savory mushrooms",
+        targetType: Math.random() < 0.5 ? "friendly" : "enemy", // Randomly assign targetType
+        success: [
+            { type: "textMessage", text: "{CASTER} triggers a {ACTION}!" },
+            { type: "animation", animation: "meltdown" }, // Trigger a mushroom meltdown animation
+            { type: "stateChange", status: { type: "trance", expiresIn: 3 } }, // Apply trance status for 3 turns
+            { type: "textMessage", text: "{TARGET} is mesmerized by the mushroom meltdown!" },
+        ],
+    },
+    // Action to deliver a sizzling strike of sausage
+    sizzlingSausageStrike: {
+        name: "Sizzling Sausage Strike",
+        description: "Deliver a sizzling strike of sausage",
+        targetType: Math.random() < 0.5 ? "friendly" : "enemy", // Randomly assign targetType
+        success: [
+            { type: "textMessage", text: "{CASTER} lands a {ACTION}!" },
+            { type: "animation", animation: "sizzle" }, // Trigger a sizzling sausage animation
+            { type: "stateChange", damage: 25 }, // Inflict sizzling sausage damage of 25 points
+            { type: "textMessage", text: "{TARGET} is hit by the sizzling sausage strike!" },
+        ],
+    },
+    */
 };

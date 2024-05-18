@@ -40,8 +40,6 @@ export class PizzaStone extends GameObject {
     }
 
     update() {
-        this.sprite.currentAnimation = playerState.storyFlags[this.storyFlag]
-            ? "used-down"
-            : "unused-down";
+        this.sprite.currentAnimation = playerState.storyFlags[this.storyFlag] ? "used-down" : "unused-down";
     }
 }

@@ -10,17 +10,24 @@ export class PauseMenu {
     getOptions(pageKey) {
         //Case 1: Show the first page of options
         if (pageKey === "root") {
-            const lineupPizzas = playerState.lineup.map((id) => {
-                const { pizzaId } = playerState.pizzas[id];
-                const base = Pizzas[pizzaId];
-                return {
-                    label: base.name,
-                    description: base.description,
-                    handler: () => {
-                        this.keyboardMenu.setOptions(this.getOptions(id));
-                    },
-                };
-            });
+            const lineupPizzas = playerState.lineup
+                .map((id) => {
+                    const pizza = playerState.pizzas[id];
+                    if (pizza) {
+                        const { pizzaId } = pizza;
+                        const base = Pizzas[pizzaId];
+                        return {
+                            label: base.name,
+                            description: base.description,
+                            handler: () => {
+                                this.keyboardMenu.setOptions(this.getOptions(id));
+                            },
+                        };
+                    } else {
+                        return null;
+                    }
+                })
+                .filter((option) => option !== null);
             return [
                 ...lineupPizzas,
                 {
@@ -29,7 +36,6 @@ export class PauseMenu {
                     handler: () => {
                         this.progress.save();
                         this.close();
-                        console.log(this.progress);
                     },
                 },
                 {
