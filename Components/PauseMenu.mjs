@@ -1,5 +1,6 @@
 import { KeyboardMenu } from "./KeyboardMenu.mjs";
 import { KeyPressListener } from "./KeyPressListener.mjs";
+import { TitleScreen } from "./TitleScreen.mjs";
 
 export class PauseMenu {
     constructor({ progress, onComplete }) {
@@ -43,6 +44,14 @@ export class PauseMenu {
                     description: "Close the pause menu",
                     handler: () => {
                         this.close();
+                    },
+                },
+                {
+                    label: "Quit Game",
+                    description: "Save progress and return to Title Screen.",
+                    handler: () => {
+                        this.progress.save();
+                        this.quit();
                     },
                 },
             ];
@@ -100,6 +109,13 @@ export class PauseMenu {
         this.keyboardMenu.end();
         this.element.remove();
         this.onComplete();
+    }
+
+    async quit() {
+        this.close(); // Close the pause menu
+        const container = document.querySelector(".game-container");
+        const titleScreen = new TitleScreen({ progress: this.progress });
+        await titleScreen.init(container);
     }
 
     async init(container) {
