@@ -46,14 +46,6 @@ export class PauseMenu {
                         this.close();
                     },
                 },
-                {
-                    label: "Quit Game",
-                    description: "Save progress and return to Title Screen.",
-                    handler: () => {
-                        this.progress.save();
-                        this.quit();
-                    },
-                },
             ];
         }
 
