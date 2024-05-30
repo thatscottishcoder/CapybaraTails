@@ -6,27 +6,34 @@ export class TitleScreen {
     }
 
     getOptions(resolve) {
-        const saveFile = this.progress.getSaveFile();
-        return [
-            {
-                label: "New Game",
-                description: "Start a new pizza adventure!",
-                handler: () => {
-                    this.close();
-                    resolve();
+        const saveFile = this.getSaveFile();
+        if (saveFile) {
+            return [
+                {
+                    label: "New Game",
+                    description: "Start a new pizza adventure!",
+                    handler: () => {
+                        this.close();
+                        resolve();
+                    },
                 },
-            },
-            saveFile
-                ? {
-                      label: "Continue Game",
-                      description: "Resume your adventure.",
-                      handler: () => {
-                          this.close();
-                          resolve(saveFile);
-                      },
-                  }
-                : null,
-        ].filter((v) => v);
+                saveFile
+                    ? {
+                          label: "Continue Game",
+                          description: "Resume your adventure.",
+                          handler: () => {
+                              this.close();
+                              resolve(saveFile);
+                          },
+                      }
+                    : null,
+            ].filter((v) => v);
+        }
+    }
+
+    async getSaveFile() {
+        const saveFile = await this.progress.getSaveFile();
+        return saveFile ? saveFile : null;
     }
 
     createElement() {

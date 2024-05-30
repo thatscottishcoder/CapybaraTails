@@ -12,6 +12,12 @@ export class Overworld {
         this.canvas = this.element.querySelector(".game-canvas"); // Canvas element for drawing
         this.ctx = this.canvas.getContext("2d"); // Context for drawing on the canvas
         this.map = null; // Reference to the game map
+        this.saveInterval = null; // Interval for automatic saving of progress
+    }
+
+    // Method to save progress every two minutes
+    saveGameProgressAutomatically() {
+        this.progress.save();
     }
 
     gameLoopStepWork(delta) {
@@ -99,7 +105,7 @@ export class Overworld {
         });
     }
 
-    startMap(mapConfig, heroInitialState = null) {
+    startMap(mapConfig, initialHeroState = null) {
         // Create a new map using the provided configuration
         this.map = new OverworldMap(mapConfig);
         // Set a reference to the current overworld instance within the map
@@ -107,12 +113,11 @@ export class Overworld {
         // Mount game objects onto the map
         this.map.mountObjects();
 
-        if (heroInitialState) {
-            console.log(heroInitialState);
+        if (initialHeroState) {
             const { hero } = this.map.gameObjects;
-            hero.x = heroInitialState.x;
-            hero.y = heroInitialState.y;
-            hero.direction = heroInitialState.direction;
+            hero.x = initialHeroState.x;
+            hero.y = initialHeroState.y;
+            hero.direction = initialHeroState.direction;
         }
 
         this.progress.mapId = mapConfig.id;
@@ -132,19 +137,20 @@ export class Overworld {
         let initialHeroState = null;
         if (useSaveFile) {
             this.progress.load();
+            this.mapId = useSaveFile.mapId;
             initialHeroState = {
-                x: this.progress.startingHeroX,
-                y: this.progress.startingHeroY,
-                direction: this.progress.startingHeroDirection,
+                x: useSaveFile.startingHeroX,
+                y: useSaveFile.startingHeroY,
+                direction: useSaveFile.startingHeroDirection,
             };
-            console.log(initialHeroState.x);
-            console.log(initialHeroState.y);
-            console.log(initialHeroState.direction);
+            window.playerState = useSaveFile.playerState;
+        } else {
+            this.mapId = "Kitchen";
         }
         this.hud = new Hud();
         this.hud.init(container);
         // Start the game with the DemoRoom map configuration
-        this.startMap(window.OverworldMaps[this.progress.mapId], initialHeroState);
+        this.startMap(window.OverworldMaps[this.mapId], initialHeroState);
 
         // Bind input for action trigger
         this.bindActionInput();
@@ -185,5 +191,10 @@ export class Overworld {
                 { who: "chefIsabella", type: "stand", direction: "down", time: 1000 },
             ]);
         }
+
+        // Save progress automatically every two minutes
+        this.saveInterval = setInterval(() => {
+            this.saveGameProgressAutomatically();
+        }, 120000);
     }
 }

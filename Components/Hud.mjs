@@ -27,7 +27,8 @@ export class Hud {
         this.element.classList.add("Hud"); // Add CSS class to the HUD element
 
         // Retrieve player state data
-        const { playerState } = window;
+        const playerState = window.playerState;
+        console.log(window.playerState);
         // Iterate over the player's lineup of pizzas
         playerState.lineup.forEach((key) => {
             // Retrieve pizza data for the current lineup key
