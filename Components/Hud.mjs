@@ -28,7 +28,6 @@ export class Hud {
 
         // Retrieve player state data
         const playerState = window.playerState;
-        console.log(window.playerState);
         // Iterate over the player's lineup of pizzas
         playerState.lineup.forEach((key) => {
             // Retrieve pizza data for the current lineup key

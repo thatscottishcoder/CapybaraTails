@@ -7,7 +7,26 @@ export class Progress {
         this.saveFileKey = "PizzaLegends_SaveFile1";
     }
 
-    save() {
+    async save() {
+        const playerData = {
+            id: 1,
+            mapId: this.mapId,
+            startingHeroX: this.startingHeroX,
+            startingHeroY: this.startingHeroY,
+            startingHeroDirection: this.startingHeroDirection,
+        };
+        const pizzaData = {
+            pizzas: playerState.pizzas,
+        };
+        const lineupData = {
+            lineup: playerState.lineup,
+        };
+        const itemData = {
+            items: playerState.items,
+        };
+        const flagData = {
+            flags: playerState.flags,
+        };
         const dataToSave = {
             mapId: this.mapId,
             startingHeroX: this.startingHeroX,
@@ -20,12 +39,57 @@ export class Progress {
                 storyFlags: playerState.storyFlags,
             },
         };
+
+        // Save to local storage
         window.localStorage.setItem(this.saveFileKey, JSON.stringify(dataToSave));
+
+        // Save to server
+        try {
+            const response = await fetch("http://fb21.decoded.com:8000/api/retrieveData");
+            if (!response.ok) {
+                throw new Error("Network response was not okay");
+            }
+            const data = await response.json();
+
+            let saveEndpoint = "http://fb21.decoded.com:8000/api/create/playerstate";
+
+            if (!data) {
+                let saveEndpoint = "http://fb21.decoded.com:8000/api/create/playerstate";
+            }
+
+            const saveResponse = await fetch(saveEndpoint, {
+                method: "POST", //data ? "PATCH" : "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    playerData,
+                }),
+            });
+            console.log(
+                JSON.stringify({
+                    playerData,
+                    pizzaData,
+                    lineupData,
+                    itemData,
+                    flagData,
+                })
+            );
+
+            if (!saveResponse.ok) {
+                throw new Error("Network response was not okay");
+            }
+
+            const responseData = await saveResponse.json();
+            console.log("Data saved successfully:", responseData);
+        } catch (error) {
+            console.error("Error saving data to the server:", error);
+        }
     }
 
     async getSaveFile() {
         try {
-            const response = await fetch("http://fb21.decoded.com:8000/api/combineddata");
+            const response = await fetch("http://fb21.decoded.com:8000/api/retrieveData");
             if (!response.ok) {
                 throw new Error("Network response was not okay");
             }
@@ -33,10 +97,10 @@ export class Progress {
 
             if (data) {
                 const file = {
-                    mapId: data.maps ? data.maps[0].mapId : null,
-                    startingHeroX: data.maps ? data.maps[0].startingHeroX : null,
-                    startingHeroY: data.maps ? data.maps[0].startingHeroY : null,
-                    startingHeroDirection: data.maps ? data.maps[0].startingHeroDirection : null,
+                    mapId: data.playerStates ? data.playerStates[0].mapId : null,
+                    startingHeroX: data.playerStates ? data.playerStates[0].startingHeroX : null,
+                    startingHeroY: data.playerStates ? data.playerStates[0].startingHeroY : null,
+                    startingHeroDirection: data.playerStates ? data.playerStates[0].startingHeroDirection : null,
                     playerState: {
                         pizzas: {},
                         lineup: [],

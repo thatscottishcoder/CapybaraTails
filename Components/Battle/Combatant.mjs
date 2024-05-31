@@ -2,6 +2,8 @@ export class Combatant {
     // Constructor for the Combatant class
     constructor(config, battle) {
         // Initialise the combatant properties from the config object
+        if (window.playerState) {
+        }
         Object.keys(config).forEach((key) => {
             this[key] = config[key];
         });
