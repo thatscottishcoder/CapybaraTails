@@ -150,9 +150,9 @@ window.OverworldMaps = {
     Kitchen: {
         id: "Kitchen",
         // Source for lower layer image
-        lowerSrc: "/images/maps/KitchenLower.png",
+        lowerSrc: "images/maps/KitchenLower.png",
         // Source for upper layer image
-        upperSrc: "/images/maps/KitchenUpper.png",
+        upperSrc: "images/maps/KitchenUpper.png",
         // Source for battle layer image
         battleSrc: "images/maps/KitchenBattle.png",
         gameObjects: {},
@@ -167,7 +167,7 @@ window.OverworldMaps = {
                 type: "Person",
                 x: utils.withGrid(10),
                 y: utils.withGrid(6),
-                src: "/images/characters/people/npc4.png",
+                src: "images/characters/people/npc4.png",
                 behaviorLoop: [
                     { type: "walk", direction: "right" },
                     { type: "walk", direction: "up" },
@@ -230,7 +230,7 @@ window.OverworldMaps = {
                 type: "Person",
                 x: utils.withGrid(2),
                 y: utils.withGrid(6),
-                src: "/images/characters/people/npc5.png",
+                src: "images/characters/people/npc5.png",
                 behaviorLoop: [
                     { type: "stand", direction: "left", time: 800 },
                     { type: "walk", direction: "up" },
@@ -336,11 +336,11 @@ window.OverworldMaps = {
     DiningRoom: {
         id: "DiningRoom",
         // Source for lower layer image
-        lowerSrc: "/images/maps/DiningRoomLower.png",
+        lowerSrc: "images/maps/DiningRoomLower.png",
         // Source for upper layer image
-        upperSrc: "/images/maps/DiningRoomUpper.png",
+        upperSrc: "images/maps/DiningRoomUpper.png",
         // Source for battle layer image
-        battleSrc: "/images/maps/DiningRoomBattle.png",
+        battleSrc: "images/maps/DiningRoomBattle.png",
         gameObjects: {
             // hero: new Person({
             //     // Indicates that the player controls this character
@@ -354,7 +354,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(2),
             //     y: utils.withGrid(4),
             //     // Image source for npcA
-            //     src: "/images/characters/people/erio.png",
+            //     src: "images/characters/people/erio.png",
             //     talking: [
             //         {
             //             events: [
@@ -374,7 +374,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(10),
             //     y: utils.withGrid(8),
             //     // Image source for npcB
-            //     src: "/images/characters/people/npc1.png",
+            //     src: "images/characters/people/npc1.png",
             //     // Sequence of talking events for npcB
             //     talking: [
             //         {
@@ -530,10 +530,10 @@ window.OverworldMaps = {
     Street: {
         id: "Street",
         // Source for the lower layer image
-        lowerSrc: "/images/maps/StreetLower.png",
+        lowerSrc: "images/maps/StreetLower.png",
         // Source for the upper layer image
-        upperSrc: "/images/maps/StreetUpper.png",
-        battleSrc: "/images/maps/StreetBattle.png",
+        upperSrc: "images/maps/StreetUpper.png",
+        battleSrc: "images/maps/StreetBattle.png",
         gameObjects: {
             // hero: new Person({
             //     // Indicates that the player controls this character
@@ -547,7 +547,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(7),
             //     y: utils.withGrid(9),
             //     // Image source for npcA
-            //     src: "/images/characters/people/npc1.png",
+            //     src: "images/characters/people/npc1.png",
             //     // Sequence of behaviors for npcA
             //     behaviorLoop: [
             //         // Stand facing left
@@ -576,7 +576,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(8),
             //     y: utils.withGrid(5),
             //     // Image source for npcB
-            //     src: "/images/characters/people/npc2.png",
+            //     src: "images/characters/people/npc2.png",
             //     // Sequence of behaviors for npcB
             //     // behaviorLoop: [
             //     //     // Walk left
@@ -745,10 +745,10 @@ window.OverworldMaps = {
     PizzaShop: {
         id: "PizzaShop",
         // Source for the lower layer image
-        lowerSrc: "/images/maps/PizzaShopLower.png",
+        lowerSrc: "images/maps/PizzaShopLower.png",
         // Source for the upper layer image
-        upperSrc: "/images/maps/PizzaShopUpper.png",
-        battleSrc: "/images/maps/PizzaShopBattle.png",
+        upperSrc: "images/maps/PizzaShopUpper.png",
+        battleSrc: "images/maps/PizzaShopBattle.png",
         gameObjects: {
             // hero: new Person({
             //     // Indicates that the player controls this character
@@ -762,7 +762,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(7),
             //     y: utils.withGrid(9),
             //     // Image source for npcA
-            //     src: "/images/characters/people/npc1.png",
+            //     src: "images/characters/people/npc1.png",
             //     // Sequence of behaviors for npcA
             //     behaviorLoop: [
             //         // Stand facing left
@@ -791,7 +791,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(8),
             //     y: utils.withGrid(5),
             //     // Image source for npcB
-            //     src: "/images/characters/people/npc2.png",
+            //     src: "images/characters/people/npc2.png",
             //     // Sequence of behaviors for npcB
             //     // behaviorLoop: [
             //     //     // Walk left
@@ -912,9 +912,9 @@ window.OverworldMaps = {
     StreetNorth: {
         id: "StreetNorth",
         // Source for the lower layer image
-        lowerSrc: "/images/maps/StreetNorthLower.png",
+        lowerSrc: "images/maps/StreetNorthLower.png",
         // Source for the upper layer image
-        upperSrc: "/images/maps/StreetNorthUpper.png",
+        upperSrc: "images/maps/StreetNorthUpper.png",
         battleSrc: "images/maps/StreetBattle.png",
         gameObjects: {
             // hero: new Person({
@@ -929,7 +929,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(7),
             //     y: utils.withGrid(9),
             //     // Image source for npcA
-            //     src: "/images/characters/people/npc1.png",
+            //     src: "images/characters/people/npc1.png",
             //     // Sequence of behaviors for npcA
             //     behaviorLoop: [
             //         // Stand facing left
@@ -958,7 +958,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(8),
             //     y: utils.withGrid(5),
             //     // Image source for npcB
-            //     src: "/images/characters/people/npc2.png",
+            //     src: "images/characters/people/npc2.png",
             //     // Sequence of behaviors for npcB
             //     // behaviorLoop: [
             //     //     // Walk left
@@ -1093,10 +1093,10 @@ window.OverworldMaps = {
     GreenKitchen: {
         id: "GreenKitchen",
         // Source for the lower layer image
-        lowerSrc: "/images/maps/GreenKitchenLower.png",
+        lowerSrc: "images/maps/GreenKitchenLower.png",
         // Source for the upper layer image
-        upperSrc: "/images/maps/GreenKitchenUpper.png",
-        battleSrc: "/images/maps/GreenKitchenBattle.png",
+        upperSrc: "images/maps/GreenKitchenUpper.png",
+        battleSrc: "images/maps/GreenKitchenBattle.png",
         gameObjects: {
             // hero: new Person({
             //     // Indicates that the player controls this character
@@ -1110,7 +1110,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(7),
             //     y: utils.withGrid(9),
             //     // Image source for npcA
-            //     src: "/images/characters/people/npc1.png",
+            //     src: "images/characters/people/npc1.png",
             //     // Sequence of behaviors for npcA
             //     behaviorLoop: [
             //         // Stand facing left
@@ -1139,7 +1139,7 @@ window.OverworldMaps = {
             //     x: utils.withGrid(8),
             //     y: utils.withGrid(5),
             //     // Image source for npcB
-            //     src: "/images/characters/people/npc2.png",
+            //     src: "images/characters/people/npc2.png",
             //     // Sequence of behaviors for npcB
             //     // behaviorLoop: [
             //     //     // Walk left

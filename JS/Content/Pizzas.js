@@ -14,8 +14,8 @@ window.Pizzas = {
         name: "Slice Samurai", // Name of the pizza
         description: "Spicy and sharp, it's a taste warrior.",
         type: PizzaTypes.spicy, // Type of pizza (spicy)
-        src: "/images/characters/pizzas/s001.png", // Source image for the pizza
-        icon: "/images/icons/spicy.png", // Icon image representing the pizza type
+        src: "images/characters/pizzas/s001.png", // Source image for the pizza
+        icon: "images/icons/spicy.png", // Icon image representing the pizza type
         actions: ["clumsyStatus", "saucyStatus", "damage1"],
     },
     // Define properties for "Bacon Brigade" pizza
@@ -23,8 +23,8 @@ window.Pizzas = {
         name: "Bacon Bridge", // Name of the pizza
         description: "A fiery flavor explosion!",
         type: PizzaTypes.spicy, // Type of pizza (spicy)
-        src: "/images/characters/pizzas/s002.png", // Source image for the pizza
-        icon: "/images/icons/spicy.png", // Icon image representing the pizza type
+        src: "images/characters/pizzas/s002.png", // Source image for the pizza
+        icon: "images/icons/spicy.png", // Icon image representing the pizza type
         actions: ["clumsyStatus", "saucyStatus", "damage1"],
     },
     // Define properties for "Call Me Kale" pizza
@@ -32,8 +32,8 @@ window.Pizzas = {
         name: "Call Me Kale", // Name of the pizza
         description: "A veggie powerhouse on dough.",
         type: PizzaTypes.veggie, // Type of pizza (veggie)
-        src: "/images/characters/pizzas/v001.png", // Source image for the pizza
-        icon: "/images/icons/veggie.png", // Icon image representing the pizza type
+        src: "images/characters/pizzas/v001.png", // Source image for the pizza
+        icon: "images/icons/veggie.png", // Icon image representing the pizza type
         actions: ["damage1"],
     },
     // Define properties for "Portobello Express" pizza
@@ -41,8 +41,8 @@ window.Pizzas = {
         name: "Portobello Express", // Name of the pizza
         description: "A savory journey through fungi flavor.",
         type: PizzaTypes.fungi, // Type of pizza (veggie)
-        src: "/images/characters/pizzas/f001.png", // Source image for the pizza
-        icon: "/images/icons/fungi.png", // Icon image representing the pizza type
+        src: "images/characters/pizzas/f001.png", // Source image for the pizza
+        icon: "images/icons/fungi.png", // Icon image representing the pizza type
         actions: ["damage1"],
     },
 };

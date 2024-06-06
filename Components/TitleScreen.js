@@ -40,7 +40,7 @@ export class TitleScreen {
         this.element = document.createElement("div");
         this.element.classList.add("TitleScreen");
         this.element.innerHTML = `
-            <img class="TitleScreen_Logo" src="/images/logo.png" alt="Pizza Legends" />
+            <img class="TitleScreen_Logo" src="images/logo.png" alt="Pizza Legends" />
         `;
     }
 

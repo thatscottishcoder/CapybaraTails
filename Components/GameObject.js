@@ -13,7 +13,7 @@ export class GameObject {
         // Sprite representing the game object
         this.sprite = new Sprite({
             gameObject: this,
-            src: config.src || "/images/characters/people/hero.png", // Source image for the sprite
+            src: config.src || "images/characters/people/hero.png", // Source image for the sprite
         });
 
         this.behaviorLoop = config.behaviorLoop || []; // Array of behaviour loop events for the game object

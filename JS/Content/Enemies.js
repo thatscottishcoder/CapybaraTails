@@ -1,7 +1,7 @@
 window.Enemies = {
     chefIsabella: {
         name: "Chef Isabella",
-        src: "/images/characters/people/npc4.png",
+        src: "images/characters/people/npc4.png",
         intro: "Prepare to face me in battle, puny pizza!",
         pizzas: {
             a: {
@@ -13,7 +13,7 @@ window.Enemies = {
     },
     beth: {
         name: "Beth",
-        src: "/images/characters/people/npc1.png",
+        src: "images/characters/people/npc1.png",
         pizzas: {
             a: {
                 pizzaId: "f001",
