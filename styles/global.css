@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=VT323");
 @import url("./Battle.css");
 @import url("./Combatant.css");
 @import url("./Hud.css");
@@ -11,7 +12,6 @@
 :root {
     --border-color: #291D4D;
     --dialogue-background: #FFF3B4;
-
     --menu-background: #FFE8D2;
     --menu-border-color: #A48465;
     --menu-font-color: #3A160D;
@@ -29,8 +29,19 @@ body {
     overflow: hidden;
 }
 
+.how-to-play {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-size: 2em;
+    font-family: 'VT323';
+    color: #fff;
+}
+
 .game-container {
-    background-color: inherit;
+    background-color: darkcyan;
     position: relative;
     width: 352px;
     height: 198px;

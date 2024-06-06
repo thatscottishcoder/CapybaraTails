@@ -1,12 +1,12 @@
-import { Sprite } from "./Sprite.js";
 import { GameObject } from "./GameObject.js";
+import { Sprite } from "./Sprite.js";
 
 export class PizzaStone extends GameObject {
     constructor(config) {
         super(config);
         this.sprite = new Sprite({
             gameObject: this,
-            src: "..images/characters/pizza-stone.png",
+            src: "../images/characters/pizza-stone.png",
             animations: {
                 "used-down": [[0, 0]],
                 "unused-down": [[1, 0]],
@@ -27,6 +27,7 @@ export class PizzaStone extends GameObject {
                 ],
             },
             {
+                required: ["TALKED_TO_CHEF_ALFREDO_1"],
                 events: [
                     {
                         type: "textMessage",
@@ -35,6 +36,9 @@ export class PizzaStone extends GameObject {
                     { type: "craftingMenu", pizzas: this.pizzas },
                     { type: "addStoryFlag", flag: this.storyFlag },
                 ],
+            },
+            {
+                events: [{ type: "textMessage", text: "You can't use this item yet..." }],
             },
         ];
     }

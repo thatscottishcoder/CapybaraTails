@@ -1,6 +1,6 @@
 import { OverworldEvent } from "./OverworldEvent.js";
-import { Person } from "./Person.js";
 import { PizzaStone } from "./PizzaStone.js";
+import { Person } from "./Person.js";
 
 // Creates a new OverworldMap instance representing a map in the overworld
 export class OverworldMap {
@@ -187,17 +187,7 @@ window.OverworldMaps = {
                 ],
                 talking: [
                     {
-                        required: ["TALKED_TO_CHEF_ISABELLA_1"],
-                        events: [
-                            {
-                                type: "textMessage",
-                                text: "You should go and speak with Chef Alfredo.",
-                                faceHero: "chefIsabella",
-                            },
-                        ],
-                    },
-                    {
-                        required: ["TALKED_TO_CHEF_ALFREDO_1"],
+                        required: ["TALKED_TO_CHEF_ALFREDO_1", "USED_PIZZA_STONE_KITCHEN", "TALKED_TO_CHEF_ALFREDO_2"],
                         events: [
                             {
                                 type: "textMessage",
@@ -210,7 +200,7 @@ window.OverworldMaps = {
                             },
                             {
                                 type: "addStoryFlag",
-                                flag: "DEFEATED_CHEF_ISABELLA",
+                                flag: "DEFEATED_CHEF_ISABELLA_1",
                             },
                             {
                                 type: "textMessage",
@@ -220,6 +210,26 @@ window.OverworldMaps = {
                             {
                                 type: "textMessage",
                                 text: "Remember, you'll need to hone your skills if you want to defeat The Supreme Toppinger.",
+                                faceHero: "chefIsabella",
+                            },
+                        ],
+                    },
+                    {
+                        required: ["TALKED_TO_CHEF_ALFREDO_1", "USED_PIZZA_STONE_KITCHEN"],
+                        events: [
+                            {
+                                type: "textMessage",
+                                text: "I think Chef Alfredo still needs to speak with you.",
+                                faceHero: "chefIsabella",
+                            },
+                        ],
+                    },
+                    {
+                        required: ["TALKED_TO_CHEF_ISABELLA_1"],
+                        events: [
+                            {
+                                type: "textMessage",
+                                text: "You should go and speak with Chef Alfredo.",
                                 faceHero: "chefIsabella",
                             },
                         ],
@@ -241,12 +251,40 @@ window.OverworldMaps = {
                     { type: "stand", direction: "left", time: 800 },
                     { type: "walk", direction: "up" },
                 ],
+                talking: [
+                    {
+                        required: ["USED_PIZZA_STONE_KITCHEN"],
+                        events: [
+                            { type: "textMessage", text: "Brilliant! Now that you've learned how to craft pizzas, you'll now need to learn how to battle.", faceHero: "chefAlfredo" },
+                            { type: "textMessage", text: "Head over and speak with Chef Isabella when you're ready, and she'll teach you how to battle.", faceHero: "chefAlfredo" },
+                            { type: "addStoryFlag", flag: "TALKED_TO_CHEF_ALFREDO_2" },
+                        ],
+                    },
+                    {
+                        required: ["TALKED_TO_CHEF_ALFREDO_1"],
+                        events: [{ type: "textMessage", text: "Go over and craft your first pizza when you're ready.", faceHero: "chefAlfredo" }],
+                    },
+                    {
+                        required: ["TALKED_TO_CHEF_ISABELLA_1"],
+                        events: [
+                            { type: "textMessage", text: "Hey rookie, I'm Chef Alfredo.", faceHero: "chefAlfredo" },
+                            { type: "textMessage", text: "I hear you're looking to take down The Supreme Toppinger.", faceHero: "chefAlfredo" },
+                            { type: "textMessage", text: "You'll need to have some pizzas at hand if you plan that.", faceHero: "chefAlfredo" },
+                            { type: "textMessage", text: "See that Pizza Stone behind you? That's where you can craft your pizzas.", faceHero: "chefAlfredo" },
+                            { type: "textMessage", text: "Why don't you go over and make your first one, then come back and see me.", faceHero: "chefAlfredo" },
+                            {
+                                type: "addStoryFlag",
+                                flag: "TALKED_TO_CHEF_ALFREDO_1",
+                            },
+                        ],
+                    },
+                ],
             },
             pizzaStone: {
                 type: "PizzaStone",
                 x: utils.withGrid(3),
                 y: utils.withGrid(9),
-                storyFlag: "USED_PIZZA_STONE",
+                storyFlag: "USED_PIZZA_STONE_KITCHEN",
                 pizzas: ["s001"],
             },
         },

@@ -3,35 +3,32 @@ import { Combatant } from "./Combatant.js";
 import { Team } from "./Team.js";
 import { TurnCycle } from "./TurnCycle.js";
 
-// Represents a battle in the game.
 export class Battle {
     constructor({ enemy, map, onComplete }) {
         this.enemy = enemy;
-        this.map = map;
         this.onComplete = onComplete;
+        this.map = map;
 
-        // A dictionary of combatants in the battle.
         this.combatants = {};
 
-        // The active combatants in the battle.
         this.activeCombatants = {
             player: null, //"player1",
             enemy: null, //"enemy1",
         };
 
-        // Dynamically add the Player team
+        //Dynamically add the Player team
         window.playerState.lineup.forEach((id) => {
             this.addCombatant(id, "player", window.playerState.pizzas[id]);
         });
-        // Now the enemy team
+        //Now the enemy team
         Object.keys(this.enemy.pizzas).forEach((key) => {
             this.addCombatant("e_" + key, "enemy", this.enemy.pizzas[key]);
         });
 
-        // Start empty
+        //Start empty
         this.items = [];
 
-        // Add in player items
+        //Add in player items
         window.playerState.items.forEach((item) => {
             this.items.push({
                 ...item,
@@ -39,11 +36,9 @@ export class Battle {
             });
         });
 
-        // A dictionary of used instance IDs.
         this.usedInstanceIds = {};
     }
 
-    // Adds a combatant to the battle.
     addCombatant(id, team, config) {
         this.combatants[id] = new Combatant(
             {
@@ -54,7 +49,8 @@ export class Battle {
             },
             this
         );
-        // Populate first active pizza
+
+        //Populate first active pizza
         this.activeCombatants[team] = this.activeCombatants[team] || id;
     }
 
@@ -73,15 +69,11 @@ export class Battle {
         `;
     }
 
-    // Initializes the battle.
     init(container) {
         this.createElement();
         container.appendChild(this.element);
 
-        // The player team.
         this.playerTeam = new Team("player", "Hero");
-
-        // The enemy team.
         this.enemyTeam = new Team("enemy", "Bully");
 
         Object.keys(this.combatants).forEach((key) => {
@@ -89,7 +81,7 @@ export class Battle {
             combatant.id = key;
             combatant.init(this.element);
 
-            // Add to correct team
+            //Add to correct team
             if (combatant.team === "player") {
                 this.playerTeam.combatants.push(combatant);
             } else if (combatant.team === "enemy") {
@@ -100,7 +92,6 @@ export class Battle {
         this.playerTeam.init(this.element);
         this.enemyTeam.init(this.element);
 
-        // The turn cycle for the battle.
         this.turnCycle = new TurnCycle({
             battle: this,
             onNewEvent: (event) => {
@@ -110,27 +101,32 @@ export class Battle {
                 });
             },
             onWinner: (winner) => {
-                // If the player won the battle, update the player's pizzas with the latest combatant stats (health, experience, level)
                 if (winner === "player") {
                     const playerState = window.playerState;
                     Object.keys(playerState.pizzas).forEach((id) => {
                         const playerStatePizza = playerState.pizzas[id];
                         const combatant = this.combatants[id];
                         if (combatant) {
-                            playerStatePizza.health = combatant.health;
-                            playerStatePizza.experience = combatant.experience;
+                            playerStatePizza.hp = combatant.hp;
+                            playerStatePizza.xp = combatant.xp;
+                            playerStatePizza.maxXp = combatant.maxXp;
                             playerStatePizza.level = combatant.level;
                         }
                     });
+
+                    //Get rid of player used items
+                    playerState.items = playerState.items.filter((item) => {
+                        return !this.usedInstanceIds[item.instanceId];
+                    });
+
+                    //Send signal to update
+                    utils.emitEvent("PlayerStateUpdated");
                 }
-                // Run the on-complete callback
-                this.onComplete(winner);
+
+                this.element.remove();
+                this.onComplete(winner === "player");
             },
         });
         this.turnCycle.init();
-    }
-    // Progresses the battle by one cycle.
-    progress() {
-        this.turnCycle.next();
     }
 }

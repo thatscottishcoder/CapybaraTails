@@ -1,5 +1,6 @@
-import { TextMessage } from "../TextMessage.js";
+import { ReplacementMenu } from "./ReplacementMenu.js";
 import { SubmissionMenu } from "./SubmissionMenu.js";
+import { TextMessage } from "../TextMessage.js";
 
 export class BattleEvent {
     // Constructor for the BattleEvent class

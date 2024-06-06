@@ -4,7 +4,7 @@ export class PlayerState {
     constructor() {
         // Initialise pizzas with default values
         this.pizzas = {};
-        this.lineup = ["p1"]; // Initial lineup
+        this.lineup = []; // Initial lineup
         this.items = [
             {
                 actionId: "item_recoverHp", // Action associated with the item

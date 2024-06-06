@@ -1,5 +1,5 @@
-import { PlayerState } from "./State/PlayerState.js";
 import { Combatant } from "./Battle/Combatant.js";
+import { PlayerState } from "./State/PlayerState.js";
 
 export class Hud {
     // Constructor for the Hud class

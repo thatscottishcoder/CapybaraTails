@@ -1,4 +1,4 @@
-import { KeyboardMenu } from "../../KeyboardMenu.js";
+import { KeyboardMenu } from "../KeyboardMenu.js";
 
 export class ReplacementMenu {
     // Constructor for the replacement menu

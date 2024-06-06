@@ -10,12 +10,8 @@ async function getWeather() {
             throw new Error("Network response was not okay.");
         }
         const weatherData = await response.json();
-        console.log(weatherData);
-        console.log(weatherData.condition);
 
-        const weather = "rain";
-
-        switch (weather /*weatherData.condition*/) {
+        switch (weatherData.condition) {
             case "clear sky":
                 clearSky();
                 break;
@@ -27,6 +23,9 @@ async function getWeather() {
                 break;
             case "broken clouds":
                 clouds(8);
+                break;
+            case "overcast clouds":
+                clouds(15);
                 break;
             case "shower rain":
                 rain(50);
