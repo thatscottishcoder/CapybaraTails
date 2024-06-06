@@ -15,7 +15,7 @@
     width: 32px;
     height: 32px;
     overflow: hidden;
-    background: url(images/characters/shadow.png) no-repeat no-repeat;
+    background: url(../images/characters/shadow.png) no-repeat no-repeat;
 }
 
 .Battle_hero img,
