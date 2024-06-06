@@ -30,13 +30,13 @@ body {
 }
 
 .game-container {
+    background-color: inherit;
     position: relative;
     width: 352px;
     height: 198px;
     margin: 0 auto;
     outline: 1px solid #fff;
-
-    transform: scale(3) translateY(50%);
+    transform: scale(3) translateY(60%);
 }
 
 .game-container canvas {

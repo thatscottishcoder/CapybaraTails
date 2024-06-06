@@ -10,7 +10,7 @@
   <link href="styles/global.css" type="text/css" rel="stylesheet">
 </head>
 
-<body>
+<body onload="getWeather()">
   <div class="game-container">
     <canvas class="game-canvas" width="352" height="198"></canvas>
   </div>
@@ -23,7 +23,10 @@
   <script src="JS/utils.js"></script>
   <!-- Battle Scripts -->
   <script src="Components/Battle/BattleAnimations.js"></script>
+  <!-- Main JS -->
   <script type="module" src="Components/init.js"></script>
+  <!-- Weather -->
+  <script src="Components/Weather.js"></script>
 </body>
 
 </html>

@@ -4,11 +4,11 @@ using System.Text.Json;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(policyBuilder => policyBuilder.AddDefaultPolicy(policy => policy.WithOrigins("*").AllowAnyHeader().AllowAnyHeader()) );
+builder.Services.AddCors(policyBuilder => policyBuilder.AddDefaultPolicy(policy => policy.WithOrigins("*").AllowAnyHeader().AllowAnyHeader()));
 
 var app = builder.Build();
 app.UseHttpsRedirection();
-app.UseCors(); 
+app.UseCors();
 
 // var playerData = new List<PlayerState>();
 
@@ -17,12 +17,13 @@ app.UseCors();
 //     Console.WriteLine(player);
 // });
 
-app.MapGet("/api/weather", async (HttpContext context) => {
+app.MapGet("/api/weather", async (HttpContext context) =>
+{
     var query = context.Request.Query;
     var lat = query["lat"];
     var lon = query["lon"];
 
-    if(string.IsNullOrEmpty(lat) || string.IsNullOrEmpty(lon))
+    if (string.IsNullOrEmpty(lat) || string.IsNullOrEmpty(lon))
     {
         context.Response.StatusCode = 400; // Bad Request
         await context.Response.WriteAsync("Latitude and Longitude are required.");
@@ -35,7 +36,7 @@ app.MapGet("/api/weather", async (HttpContext context) => {
     using var httpClient = new HttpClient();
     var response = await httpClient.GetAsync(url);
 
-    if(!response.IsSuccessStatusCode)
+    if (!response.IsSuccessStatusCode)
     {
         context.Response.StatusCode = (int)response.StatusCode;
         await context.Response.WriteAsync("Failed to fetch weather data.");
@@ -48,7 +49,7 @@ app.MapGet("/api/weather", async (HttpContext context) => {
     var temp = weatherJson.GetProperty("main").GetProperty("temp").GetDouble();
     var weatherCondition = weatherJson.GetProperty("weather")[0].GetProperty("description").GetString();
 
-    var result = new { temp, conditon = weatherCondition };
+    var result = new { temp, condition = weatherCondition };
     context.Response.ContentType = "application/json";
     await context.Response.WriteAsync(JsonSerializer.Serialize(result));
 });

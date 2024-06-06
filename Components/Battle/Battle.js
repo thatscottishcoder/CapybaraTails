@@ -1,7 +1,7 @@
-import { BattleEvent } from "./BattleEvent.mjs";
-import { Combatant } from "./Combatant.mjs";
-import { Team } from "./Team.mjs";
-import { TurnCycle } from "./TurnCycle.mjs";
+import { BattleEvent } from "./BattleEvent.js";
+import { Combatant } from "./Combatant.js";
+import { Team } from "./Team.js";
+import { TurnCycle } from "./TurnCycle.js";
 
 // Represents a battle in the game.
 export class Battle {
