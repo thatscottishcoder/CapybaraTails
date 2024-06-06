@@ -15,3 +15,4 @@
     -   Modifying code to start with no pizzas, and to allow save game with no pizzas / with pizzas in player state.
     -   Autosave Function: Automatically saves player data every two minutes.
     -   Retrieval of game data from SQLite Database via C# Database
+    -   Custom Weather API to retrieve current weather and apply relevant background (currently limited to predefined longitude/latitude due to http)
