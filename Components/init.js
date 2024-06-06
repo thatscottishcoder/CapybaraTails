@@ -1,4 +1,4 @@
-import { Overworld } from "./Overworld.mjs";
+import { Overworld } from "./Overworld.js";
 
 // Immediately invoked function expression to initialise the overworld
 (function () {

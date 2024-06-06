@@ -1,4 +1,4 @@
-import { GameObject } from "./GameObject.mjs";
+import { GameObject } from "./GameObject.js";
 
 export class Person extends GameObject {
     constructor(config) {

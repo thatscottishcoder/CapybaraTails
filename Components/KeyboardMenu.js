@@ -1,4 +1,4 @@
-import { KeyPressListener } from "./KeyPressListener.mjs";
+import { KeyPressListener } from "./KeyPressListener.js";
 
 export class KeyboardMenu {
     //  Constructor for the KeyboardMenu class

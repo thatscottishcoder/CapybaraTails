@@ -1,5 +1,5 @@
-import { Sprite } from "./Sprite.mjs";
-import { GameObject } from "./GameObject.mjs";
+import { Sprite } from "./Sprite.js";
+import { GameObject } from "./GameObject.js";
 
 export class PizzaStone extends GameObject {
     constructor(config) {

@@ -1,8 +1,8 @@
-import { TextMessage } from "./TextMessage.mjs";
-import { CraftingMenu } from "./CrafingMenu.mjs";
-import { Battle } from "./Battle/Battle.mjs";
-import { PauseMenu } from "./PauseMenu.mjs";
-import { SceneTransition } from "./SceneTransition.mjs";
+import { TextMessage } from "./TextMessage.js";
+import { CraftingMenu } from "./CrafingMenu.js";
+import { Battle } from "./Battle/Battle.js";
+import { PauseMenu } from "./PauseMenu.js";
+import { SceneTransition } from "./SceneTransition.js";
 
 // Creates a new OverworldEvent object which represents an event happening in the overworld
 export class OverworldEvent {

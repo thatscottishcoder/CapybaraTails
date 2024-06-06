@@ -1,6 +1,6 @@
-import { OverworldEvent } from "./OverworldEvent.mjs";
-import { Person } from "./Person.mjs";
-import { PizzaStone } from "./PizzaStone.mjs";
+import { OverworldEvent } from "./OverworldEvent.js";
+import { Person } from "./Person.js";
+import { PizzaStone } from "./PizzaStone.js";
 
 // Creates a new OverworldMap instance representing a map in the overworld
 export class OverworldMap {

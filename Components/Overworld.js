@@ -1,9 +1,9 @@
-import { KeyPressListener } from "./KeyPressListener.mjs";
-import { OverworldMap } from "./OverworldMap.mjs";
-import { Hud } from "./Hud.mjs";
-import { DirectionInput } from "./DirectionInput.mjs";
-import { Progress } from "./Progress.mjs";
-import { TitleScreen } from "./TitleScreen.mjs";
+import { KeyPressListener } from "./KeyPressListener.js";
+import { OverworldMap } from "./OverworldMap.js";
+import { Hud } from "./Hud.js";
+import { DirectionInput } from "./DirectionInput.js";
+import { Progress } from "./Progress.js";
+import { TitleScreen } from "./TitleScreen.js";
 
 export class Overworld {
     constructor(config) {

@@ -1,6 +1,6 @@
-import { KeyboardMenu } from "./KeyboardMenu.mjs";
-import { KeyPressListener } from "./KeyPressListener.mjs";
-import { TitleScreen } from "./TitleScreen.mjs";
+import { KeyboardMenu } from "./KeyboardMenu.js";
+import { KeyPressListener } from "./KeyPressListener.js";
+import { TitleScreen } from "./TitleScreen.js";
 
 export class PauseMenu {
     constructor({ progress, onComplete }) {
