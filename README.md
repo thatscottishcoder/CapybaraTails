@@ -6,6 +6,9 @@
     -   https://www.youtube.com/playlist?list=PLcjhmZ8oLT0r9dSiIK6RB_PuBWlG1KSq_
 -   The purpose of this code is to redesign this into my very own game, based on the guidance of Drew's tutorial.
 
+-   This audio is credited to David Renda (8 Bit Adventure).
+    -   https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6
+
 ## My Credit:
 
 -   Credit belongs to myself for:
@@ -14,8 +17,9 @@
     -   Modifying code to allow opening cutscene to play only on New Game.
     -   Modifying code to start with no pizzas, and to allow save game with no pizzas / with pizzas in player state.
     -   Autosave Function: Automatically saves player data every two minutes.
-    -   Retrieval of game data from SQLite Database via C# Database
-    -   Custom Weather API to retrieve current weather and apply relevant background (currently limited to predefined longitude/latitude due to http)
+    -   Retrieval of game data from SQLite Database via C# Database.
+    -   Custom Weather API to retrieve current weather and apply relevant background (currently limited to predefined longitude/latitude due to http).
+    -   Addition of music, volume slider, and mute function.
 
 ## Pizza Adventure: Rise of the Culinary Champions
 
