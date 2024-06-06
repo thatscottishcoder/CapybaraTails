@@ -1,0 +1,35 @@
+/* Style for volume container */
+#volume-container {
+    position: fixed;
+    bottom: 20px;
+    /* Adjust as needed */
+    right: 20px;
+    /* Adjust as needed */
+    display: flex;
+    align-items: center;
+}
+
+/* Style for volume icon */
+#volume-icon {
+    font-size: 24px;
+    /* Adjust as needed */
+    cursor: pointer;
+    margin-right: 10px;
+    /* Adjust as needed */
+}
+
+/* Style for volume slider */
+#volume-slider {
+    width: 100px;
+    /* Adjust as needed */
+}
+
+#volume-slider::-webkit-slider-thumb {
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
+#volume-slider::-webkit-slider-thumb:active {
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}

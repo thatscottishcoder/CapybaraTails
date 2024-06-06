@@ -10,7 +10,6 @@ export class Battle {
         this.map = map;
 
         this.combatants = {};
-
         this.activeCombatants = {
             player: null, //"player1",
             enemy: null, //"enemy1",

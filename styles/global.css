@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=VT323");
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url("./Battle.css");
 @import url("./Combatant.css");
 @import url("./Hud.css");
@@ -8,6 +9,7 @@
 @import url("./Team.css");
 @import url("./TextMessage.css");
 @import url("./TitleScreen.css");
+@import url("./Volume.css");
 
 :root {
     --border-color: #291D4D;
