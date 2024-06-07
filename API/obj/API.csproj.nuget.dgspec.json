@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "F:\\VS Code\\Project\\Project v2\\API\\API.csproj": {}
+    "/opt/flipbook/public/learner/www/CapybaraTails/API/API.csproj": {}
   },
   "projects": {
-    "F:\\VS Code\\Project\\Project v2\\API\\API.csproj": {
+    "/opt/flipbook/public/learner/www/CapybaraTails/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\VS Code\\Project\\Project v2\\API\\API.csproj",
+        "projectUniqueName": "/opt/flipbook/public/learner/www/CapybaraTails/API/API.csproj",
         "projectName": "API",
-        "projectPath": "F:\\VS Code\\Project\\Project v2\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\Leigh\\.nuget\\packages\\",
-        "outputPath": "F:\\VS Code\\Project\\Project v2\\API\\obj\\",
+        "projectPath": "/opt/flipbook/public/learner/www/CapybaraTails/API/API.csproj",
+        "packagesPath": "/home/ubuntu/.nuget/packages/",
+        "outputPath": "/opt/flipbook/public/learner/www/CapybaraTails/API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Leigh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/ubuntu/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -71,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/245/sdk/8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
