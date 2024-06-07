@@ -18,6 +18,18 @@ export class PlayerState {
                 actionId: "item_recoverHp", // Action associated with the item
                 instanceId: "item3", // Unique instance ID of the item
             },
+            {
+                actionId: "item_recoverStatus", // Action associated with the item
+                instanceId: "item4", // Unique instance ID of the item
+            },
+            {
+                actionId: "item_recoverStatus", // Action associated with the item
+                instanceId: "item5", // Unique instance ID of the item
+            },
+            {
+                actionId: "item_recoverStatus", // Action associated with the item
+                instanceId: "item6", // Unique instance ID of the item
+            },
         ];
         this.storyFlags = {}; // Flags to track story progression
     }

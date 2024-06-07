@@ -144,5 +144,5 @@ function preloadAndPrepareAudio(url) {
 // Example usage
 document.addEventListener("DOMContentLoaded", () => {
     // Ensure that Font Awesome CSS is included in your HTML
-    preloadAndPrepareAudio("../Assets/background-music.mp3");
+    preloadAndPrepareAudio("./Assets/background-music.mp3");
 });

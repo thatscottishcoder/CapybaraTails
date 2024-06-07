@@ -122,6 +122,7 @@ export class Combatant {
     // Decrement the status duration of the combatant
     decrementStatus() {
         if (this.status?.expiresIn > 0) {
+            const statusText = this.status.type;
             this.status.expiresIn -= 1;
             if (this.status.expiresIn === 0) {
                 this.update({
@@ -129,7 +130,7 @@ export class Combatant {
                 });
                 return {
                     type: "textMessage",
-                    text: "Status expired!",
+                    text: `${statusText} effect has expired!`,
                 };
             }
         }
